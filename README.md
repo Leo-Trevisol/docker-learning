@@ -63,3 +63,30 @@
     <li>Aplicação prática no uso do Docker</li>
   </ul>
 </section>
+
+<section id="sobre-docker">
+  <h2>🐳 O que é Docker?</h2>
+  <p>
+    O <strong>Docker</strong> é uma plataforma de código aberto que permite criar, empacotar,
+    distribuir e executar aplicações em <strong>containers</strong>. 
+    Os containers são unidades isoladas que contêm tudo o que um aplicativo precisa para funcionar:
+    código, bibliotecas, dependências e variáveis de ambiente.
+  </p>
+  <p>
+    A principal vantagem do Docker é a <strong>portabilidade</strong> e a <strong>consistência</strong>:
+    um container pode ser executado da mesma forma em diferentes sistemas operacionais ou servidores,
+    evitando problemas de incompatibilidade entre ambientes.
+  </p>
+
+  <h2>✨ Por que usar Docker?</h2>
+  <ul>
+    <li><strong>Portabilidade:</strong> seu aplicativo roda igual em qualquer lugar (Linux, Windows, macOS, nuvem etc.).</li>
+    <li><strong>Agilidade:</strong> ambientes prontos em segundos, sem necessidade de instalar dependências manualmente.</li>
+    <li><strong>Escalabilidade:</strong> fácil replicação e distribuição de serviços.</li>
+    <li><strong>Eficiência:</strong> containers compartilham recursos do sistema, consumindo menos que máquinas virtuais.</li>
+    <li><strong>Colaboração:</strong> facilita o trabalho em equipe, garantindo que todos usem o mesmo ambiente.</li>
+    <li><strong>Compatibilidade com a nuvem:</strong> suporte nativo em provedores como AWS, Azure e Google Cloud.</li>
+    <li><strong>Integração com orquestradores:</strong> funciona perfeitamente com <em>Docker Swarm</em> e <em>Kubernetes</em>.</li>
+  </ul>
+</section>
+
