@@ -90,3 +90,36 @@
   </ul>
 </section>
 
+<section id="matrix-from-hell">
+  <h2>🔥 O que é a <em>Matrix from Hell</em> no Docker?</h2>
+  <p>
+    A <strong>Matrix from Hell</strong> é um termo usado para descrever quando um projeto cria uma
+    quantidade enorme de combinações de ambientes em pipelines de CI/CD.
+    Isso acontece ao testar múltiplas versões de linguagens, bancos de dados e sistemas operacionais,
+    gerando uma matriz de builds quase impossível de gerenciar manualmente.
+  </p>
+
+  <h3>⚠️ Problemas comuns</h3>
+  <ul>
+    <li>Crescimento <em>exponencial</em> de combinações de testes.</li>
+    <li>Aumento do tempo e custo de execução na pipeline.</li>
+    <li>Dificuldade para manter e diagnosticar falhas.</li>
+  </ul>
+
+  <h3>✅ Como o Docker ajuda</h3>
+  <ul>
+    <li><strong>Dockerfiles parametrizados:</strong> permite variar versões sem criar vários arquivos.</li>
+    <li><strong>Docker Compose:</strong> facilita orquestrar ambientes complexos.</li>
+    <li><strong>Imagens pré-buildadas:</strong> reduzem tempo de build e tornam o fluxo mais eficiente.</li>
+    <li><strong>Execução isolada:</strong> cada ambiente roda em containers separados, evitando conflitos.</li>
+  </ul>
+
+  <h3>📎 Resumo</h3>
+  <p>
+    A <em>Matrix from Hell</em> acontece quando o número de combinações de ambientes cresce de forma
+    descontrolada. O <strong>Docker</strong> ajuda a reduzir essa complexidade,
+    garantindo ambientes consistentes e mais fáceis de reproduzir.
+  </p>
+</section>
+
+
