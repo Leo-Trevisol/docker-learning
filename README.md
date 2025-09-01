@@ -340,6 +340,18 @@
       Roda o container em background (<strong>-d</strong> = detached) e dá um nome.
     </li>
     <li>
+      <pre><code>docker logs [nome_ou_id]</code></pre>
+      Mostra os logs de saída de um container em execução ou parado.
+    </li>
+    <li>
+      <pre><code>docker logs -f [nome_ou_id]</code></pre>
+      Mostra os logs em tempo real (<strong>-f</strong> = follow).
+    </li>
+    <li>
+      <pre><code>docker logs --tail 50 [nome_ou_id]</code></pre>
+      Mostra apenas as últimas 50 linhas de log.
+    </li>
+    <li>
       <pre><code>docker images</code></pre>
       Lista todas as imagens disponíveis localmente.
     </li>
@@ -359,6 +371,8 @@
     <li>Use <code>docker start [nome_ou_id]</code> para reiniciar containers parados.</li>
     <li>Digite <code>exit</code> para sair de um container interativo.</li>
     <li>Use <code>docker stop [nome_ou_id]</code> para parar containers em execução.</li>
+    <li>Use <code>docker logs [nome_ou_id]</code> para ver os logs de um container.</li>
+    <li>Use <code>docker logs -f [nome_ou_id]</code> para acompanhar logs em tempo real.</li>
     <li>Com <code>docker ps</code> e <code>docker images</code> você monitora o que está rodando no seu sistema.</li>
   </ul>
 </section>
