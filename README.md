@@ -342,6 +342,112 @@
   </ul>
 </section>
 
+<section id="container-vs-vm">
+  <h2>⚖️ Containers vs Máquinas Virtuais (VMs)</h2>
+
+  <p>
+    Containers e Máquinas Virtuais (VMs) são tecnologias que permitem executar aplicativos isolados, 
+    mas funcionam de formas diferentes. Entender a diferença é essencial para escolher a abordagem certa.
+  </p>
+
+  <h3>1️⃣ Máquinas Virtuais (VMs)</h3>
+  <p>
+    Uma VM emula um computador completo, incluindo kernel, sistema operacional e hardware virtual. 
+    Cada VM roda sobre um hypervisor (como VMware, VirtualBox ou Hyper-V).
+  </p>
+  <ul>
+    <li><strong>Vantagens:</strong>
+      <ul>
+        <li>Isolamento completo: cada VM tem seu próprio SO, evitando conflitos.</li>
+        <li>Compatibilidade: qualquer software que roda no SO convidado funciona na VM.</li>
+        <li>Segurança: falhas em uma VM dificilmente afetam outras VMs ou o host.</li>
+      </ul>
+    </li>
+    <li><strong>Desvantagens:</strong>
+      <ul>
+        <li>Mais pesado: cada VM precisa de seu próprio SO, consumindo mais RAM e CPU.</li>
+        <li>Demora para iniciar: boot completo do sistema operacional.</li>
+        <li>Menos portátil: mover VMs entre hosts é mais lento e complexo.</li>
+      </ul>
+    </li>
+    <li><strong>Cenários de uso:</strong>
+      <ul>
+        <li>Executar diferentes sistemas operacionais em um único servidor (ex: Windows e Linux).</li>
+        <li>Ambientes que precisam de isolamento extremo.</li>
+        <li>Testes de software em múltiplas versões de SO.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>2️⃣ Containers</h3>
+  <p>
+    Containers compartilham o kernel do sistema host e isolam apenas o ambiente de execução do aplicativo. 
+    Eles são leves, rápidos e portáteis.
+  </p>
+  <ul>
+    <li><strong>Vantagens:</strong>
+      <ul>
+        <li>Leveza: containers compartilham recursos do SO, usando menos RAM e CPU.</li>
+        <li>Portabilidade: a mesma imagem funciona em qualquer host com Docker.</li>
+        <li>Inicialização rápida: start em segundos.</li>
+        <li>Escalabilidade: fácil replicação de múltiplos containers.</li>
+      </ul>
+    </li>
+    <li><strong>Desvantagens:</strong>
+      <ul>
+        <li>Isolamento menor: compartilham kernel, vulnerabilidades do host podem afetar containers.</li>
+        <li>Dependência do SO host: containers Linux não rodam nativamente em Windows e vice-versa.</li>
+        <li>Compatibilidade limitada: aplicativos que exigem kernel diferente podem não funcionar.</li>
+      </ul>
+    </li>
+    <li><strong>Cenários de uso:</strong>
+      <ul>
+        <li>Deploy rápido de aplicações em produção.</li>
+        <li>Microservices: cada serviço em um container isolado.</li>
+        <li>Ambientes de desenvolvimento consistentes entre máquinas.</li>
+        <li>Testes rápidos e automação de pipelines CI/CD.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>3️⃣ Comparativo resumido</h3>
+  <table border="1" cellspacing="0" cellpadding="6">
+    <thead>
+      <tr>
+        <th>Aspecto</th>
+        <th>Máquinas Virtuais (VMs)</th>
+        <th>Containers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Isolamento</td>
+        <td>Completo, cada VM tem seu SO</td>
+        <td>Parcial, compartilha kernel do host</td>
+      </tr>
+      <tr>
+        <td>Leveza</td>
+        <td>Pesado, cada VM tem SO completo</td>
+        <td>Leve, compartilha kernel e recursos</td>
+      </tr>
+      <tr>
+        <td>Portabilidade</td>
+        <td>Moderada, imagens de VM grandes</td>
+        <td>Alta, imagens pequenas e replicáveis</td>
+      </tr>
+      <tr>
+        <td>Tempo de inicialização</td>
+        <td>Minutos</td>
+        <td>Segundos</td>
+      </tr>
+      <tr>
+        <td>Cenários ideais</td>
+        <td>Testes de SO, isolamento extremo</td>
+        <td>Deploy rápido, microservices, CI/CD</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
 
 
 
