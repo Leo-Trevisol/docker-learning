@@ -122,6 +122,55 @@
   </p>
 </section>
 
+<section id="docker-start">
+  <h2>⚡ Iniciando o Docker</h2>
+  <p>
+    Antes de rodar qualquer container, é importante garantir que o 
+    <strong>Docker Engine</strong> esteja em execução.
+  </p>
+
+  <h3>🪟 No Windows</h3>
+  <p>
+    No Windows, o Docker roda através do <strong>Docker Desktop</strong>.
+    Ele precisa estar aberto para que os comandos <code>docker</code> funcionem no terminal
+    (PowerShell, Cmder ou WSL).
+  </p>
+  <ul>
+    <li>Abra o <em>Docker Desktop</em> manualmente pelo menu iniciar.</li>
+    <li>Ou, inicie pelo terminal:
+      <pre><code>"C:\Program Files\Docker\Docker\Docker Desktop.exe"</code></pre>
+    </li>
+    <li>Recomenda-se ativar a opção <em>"Start Docker Desktop when you log in"</em> nas configurações,
+      para que o Docker suba automaticamente junto com o Windows.</li>
+  </ul>
+
+  <h3>🐧 No Linux</h3>
+  <p>
+    No Linux, o Docker é instalado como um serviço de sistema. 
+    Você pode controlá-lo com o <code>systemctl</code>.
+  </p>
+  <ul>
+    <li>Para iniciar o serviço:
+      <pre><code>sudo systemctl start docker</code></pre>
+    </li>
+    <li>Para habilitar o Docker na inicialização:
+      <pre><code>sudo systemctl enable docker</code></pre>
+    </li>
+    <li>Para verificar se está rodando:
+      <pre><code>systemctl status docker</code></pre>
+    </li>
+  </ul>
+
+  <h3>✅ Dica</h3>
+  <p>
+    Após iniciar o Docker (seja no Windows ou Linux), teste se está funcionando corretamente com:
+  </p>
+  <pre><code>docker run --rm hello-world</code></pre>
+  <p>
+    Se o comando rodar e mostrar a mensagem de boas-vindas, o Docker está funcionando 🚀.
+  </p>
+</section>
+
 <section id="docker-first-container">
   <h2>🐳 Rodando seu primeiro container Docker (2025)</h2>
 
