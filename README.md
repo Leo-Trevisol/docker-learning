@@ -125,7 +125,19 @@
 <section id="docker-first-container">
   <h2>🐳 Rodando seu primeiro container Docker (2025)</h2>
 
-  <p>Docker permite criar e executar aplicativos isolados em containers. Vamos fazer um teste rápido para garantir que tudo está funcionando.</p>
+  <p>
+    O comando principal para rodar containers no Docker é:
+  </p>
+  <pre><code>docker run [opções] [imagem] [comando]</code></pre>
+  <ul>
+    <li><strong>[opções]</strong>: parâmetros adicionais como <code>--rm</code> ou <code>-it</code>.</li>
+    <li><strong>[imagem]</strong>: a imagem Docker que você deseja usar (ex: <code>alpine</code>, <code>ubuntu</code>).</li>
+    <li><strong>[comando]</strong>: o comando que será executado dentro do container.</li>
+  </ul>
+  <p>
+    Exemplo simples:
+  </p>
+  <pre><code>docker run --rm alpine echo "Hello Docker!"</code></pre>
 
   <h3>1️⃣ Teste básico com Alpine</h3>
   <p>Alpine é uma imagem Linux mínima, muito leve e rápida:</p>
@@ -152,8 +164,8 @@
 
   <h3>✅ Resumo</h3>
   <ul>
-    <li>Escolha uma imagem Docker (Alpine, Debian, Ubuntu, etc.)</li>
-    <li>Use <code>docker run --rm [imagem] [comando]</code> para rodar rapidamente</li>
+    <li>O comando base é <code>docker run [opções] [imagem] [comando]</code></li>
+    <li>Use <code>--rm</code> para containers temporários</li>
     <li>Use <code>-it</code> se quiser interagir com o container</li>
     <li>Docker Desktop no Windows já inclui tudo que você precisa para rodar containers</li>
   </ul>
