@@ -459,5 +459,37 @@
   </table>
 </section>
 
+<h3>🌐 Expondo portas no container</h3>
+<p>
+Por padrão, os containers do Docker rodam isolados do seu host. Para acessar um serviço rodando dentro do container (como o <code>nginx</code>), é necessário mapear as portas do container para portas do host usando o parâmetro <code>-p</code>.
+</p>
 
+<ul>
+  <li>
+    <pre><code>docker run -d -p 80:80 nginx</code></pre>
+    Executa o <strong>nginx</strong> em segundo plano, mapeando a porta <code>80</code> do host para a porta <code>80</code> do container.
+  </li>
+  <li>
+    <pre><code>docker ps</code></pre>
+    Mostra os containers rodando e quais portas estão expostas:
+    <br>
+    <code>0.0.0.0:80->80/tcp</code> significa que você pode acessar no navegador <a href="http://localhost:80" target="_blank">http://localhost</a>.
+  </li>
+  <li>
+    <pre><code>docker run --rm -d -p 3000:80 nginx</code></pre>
+    Executa o nginx mapeando a porta <code>3000</code> do host para a porta <code>80</code> do container.  
+    Agora você acessa em <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>.
+  </li>
+  <li>
+    <pre><code>docker stop [nome_ou_id]</code></pre>
+    Para o container rodando na porta exposta.
+  </li>
+</ul>
+
+<h3>✅ Resumindo</h3>
+<ul>
+  <li>Use <code>-p [porta_host]:[porta_container]</code> para expor serviços.</li>
+  <li>Se não especificar, o container fica isolado (não acessível externamente).</li>
+  <li>Você pode rodar o mesmo serviço em várias portas diferentes do host, mudando apenas o primeiro número (exemplo: <code>-p 3000:80</code>, <code>-p 4000:80</code>).</li>
+</ul>
 
