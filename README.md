@@ -313,7 +313,8 @@
     <li>
       <pre><code>docker run --rm -it --name meu_container ubuntu bash</code></pre>
       <strong>-it</strong>: Executa o container em modo interativo com terminal.<br>
-      <strong>--name meu_container</strong>: dá um nome específico para o container.
+      <strong>--name meu_container</strong>: dá um nome específico para o container.<br>
+      <strong>--rm</strong>: remove o container automaticamente após parar.
     </li>
     <li>
       <pre><code>exit</code></pre>
@@ -334,6 +335,14 @@
     <li>
       <pre><code>docker start [nome_ou_id]</code></pre>
       Reinicia um container que está parado.
+    </li>
+    <li>
+      <pre><code>docker rm [nome_ou_id]</code></pre>
+      Remove um container parado do sistema.
+    </li>
+    <li>
+      <pre><code>docker rm -f [nome_ou_id]</code></pre>
+      Força a remoção de um container em execução.
     </li>
     <li>
       <pre><code>docker run -d --name meu_container ubuntu</code></pre>
@@ -368,9 +377,11 @@
     <li>Use <code>-it</code> para interagir com o container.</li>
     <li>Use <code>-d</code> para rodar containers em background.</li>
     <li>Use <code>--name [nome]</code> para dar nomes aos containers.</li>
+    <li>Use <code>--rm</code> para remover automaticamente containers temporários.</li>
     <li>Use <code>docker start [nome_ou_id]</code> para reiniciar containers parados.</li>
-    <li>Digite <code>exit</code> para sair de um container interativo.</li>
     <li>Use <code>docker stop [nome_ou_id]</code> para parar containers em execução.</li>
+    <li>Use <code>docker rm [nome_ou_id]</code> para remover containers parados.</li>
+    <li>Use <code>docker rm -f [nome_ou_id]</code> para forçar a remoção de containers em execução.</li>
     <li>Use <code>docker logs [nome_ou_id]</code> para ver os logs de um container.</li>
     <li>Use <code>docker logs -f [nome_ou_id]</code> para acompanhar logs em tempo real.</li>
     <li>Com <code>docker ps</code> e <code>docker images</code> você monitora o que está rodando no seu sistema.</li>
