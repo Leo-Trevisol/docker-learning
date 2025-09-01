@@ -287,7 +287,7 @@
 </section>
 
 <section id="docker-images-and-commands">
-  <h2>📦 Imagens Docker e Comandos Básicos</h2>
+  <h2>📦 Imagens Docker</h2>
 
   <h3>🔎 Onde encontrar imagens?</h3>
   <p>
@@ -302,59 +302,66 @@
     <li>🔹 <code>nginx</code>: Servidor web popular.</li>
     <li>🔹 <code>mysql</code> ou <code>postgres</code>: Bancos de dados relacionais.</li>
   </ul>
+</section>
 
-<h3>⚙️ Comandos básicos</h3>
-<p>Aqui estão alguns comandos essenciais para começar:</p>
-<ul>
-  <li>
-    <pre><code>docker run --rm -it ubuntu bash</code></pre>
-    <strong>-it</strong>: Executa o container em modo interativo com terminal.
-  </li>
-  <li>
-    <pre><code>exit</code></pre>
-    Sai de um container interativo.
-  </li>
-  <li>
-    <pre><code>docker ps</code></pre>
-    Lista os containers em execução.
-  </li>
-  <li>
-    <pre><code>docker ps -a</code></pre>
-    Lista todos os containers, incluindo os parados.
-  </li>
-  <li>
-    <pre><code>docker stop [nome_ou_id]</code></pre>
-    Para um container em execução.
-  </li>
-  <li>
-    <pre><code>docker start [nome_ou_id]</code></pre>
-    Reinicia um container que está parado.
-  </li>
-  <li>
-    <pre><code>docker run -d ubuntu</code></pre>
-    Roda o container em background (<strong>-d</strong> = detached).
-  </li>
-  <li>
-    <pre><code>docker images</code></pre>
-    Lista todas as imagens disponíveis localmente.
-  </li>
-  <li>
-    <pre><code>docker rmi [imagem]</code></pre>
-    Remove uma imagem do seu sistema.
-  </li>
-</ul>
+<section id="docker-basic-commands">
+  <h2>⚙️ Comandos Docker Gerais</h2>
 
-<h3>✅ Resumindo</h3>
-<ul>
-  <li>Procure imagens no <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>.</li>
-  <li>Use <code>docker run</code> para executar containers.</li>
-  <li>Use <code>-it</code> para interagir com o container.</li>
-  <li>Use <code>-d</code> para rodar containers em background.</li>
-  <li>Use <code>docker start [nome_ou_id]</code> para reiniciar containers parados.</li>
-  <li>Digite <code>exit</code> para sair de um container interativo.</li>
-  <li>Use <code>docker stop [nome_ou_id]</code> para parar containers em execução.</li>
-  <li>Com <code>docker ps</code> e <code>docker images</code> você monitora o que está rodando no seu sistema.</li>
-</ul>
+  <h3>⚙️ Comandos básicos</h3>
+  <p>Aqui estão alguns comandos essenciais para começar:</p>
+  <ul>
+    <li>
+      <pre><code>docker run --rm -it --name meu_container ubuntu bash</code></pre>
+      <strong>-it</strong>: Executa o container em modo interativo com terminal.<br>
+      <strong>--name meu_container</strong>: dá um nome específico para o container.
+    </li>
+    <li>
+      <pre><code>exit</code></pre>
+      Sai de um container interativo.
+    </li>
+    <li>
+      <pre><code>docker ps</code></pre>
+      Lista os containers em execução.
+    </li>
+    <li>
+      <pre><code>docker ps -a</code></pre>
+      Lista todos os containers, incluindo os parados.
+    </li>
+    <li>
+      <pre><code>docker stop [nome_ou_id]</code></pre>
+      Para um container em execução.
+    </li>
+    <li>
+      <pre><code>docker start [nome_ou_id]</code></pre>
+      Reinicia um container que está parado.
+    </li>
+    <li>
+      <pre><code>docker run -d --name meu_container ubuntu</code></pre>
+      Roda o container em background (<strong>-d</strong> = detached) e dá um nome.
+    </li>
+    <li>
+      <pre><code>docker images</code></pre>
+      Lista todas as imagens disponíveis localmente.
+    </li>
+    <li>
+      <pre><code>docker rmi [imagem]</code></pre>
+      Remove uma imagem do seu sistema.
+    </li>
+  </ul>
+
+  <h3>✅ Resumindo</h3>
+  <ul>
+    <li>Procure imagens no <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>.</li>
+    <li>Use <code>docker run</code> para executar containers.</li>
+    <li>Use <code>-it</code> para interagir com o container.</li>
+    <li>Use <code>-d</code> para rodar containers em background.</li>
+    <li>Use <code>--name [nome]</code> para dar nomes aos containers.</li>
+    <li>Use <code>docker start [nome_ou_id]</code> para reiniciar containers parados.</li>
+    <li>Digite <code>exit</code> para sair de um container interativo.</li>
+    <li>Use <code>docker stop [nome_ou_id]</code> para parar containers em execução.</li>
+    <li>Com <code>docker ps</code> e <code>docker images</code> você monitora o que está rodando no seu sistema.</li>
+  </ul>
+</section>
 
 <section id="container-vs-vm">
   <h2>⚖️ Containers vs Máquinas Virtuais (VMs)</h2>
