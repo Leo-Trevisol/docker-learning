@@ -159,5 +159,72 @@
   </ul>
 </section>
 
+<section id="docker-imagem-container">
+  <h2>📦 Imagem vs 🐳 Container no Docker</h2>
+
+  <h3>O que é uma Imagem Docker?</h3>
+  <p>
+    Uma <strong>Imagem</strong> é como uma <em>fotografia (snapshot)</em> ou uma 
+    <em>receita de bolo</em>. Ela contém tudo o que é necessário para executar um software:
+  </p>
+  <ul>
+    <li>Sistema operacional base (ex: Debian, Alpine, Ubuntu)</li>
+    <li>Dependências (bibliotecas, pacotes, frameworks)</li>
+    <li>Código do aplicativo</li>
+    <li>Configurações padrão</li>
+  </ul>
+  <p>
+    Características principais:
+  </p>
+  <ul>
+    <li>É <strong>imutável</strong> (não muda após ser criada).</li>
+    <li>Pode ser distribuída pelo <strong>Docker Hub</strong> ou registries privados.</li>
+    <li>É <strong>reutilizável</strong>: várias pessoas podem rodar a mesma imagem.</li>
+  </ul>
+  <pre><code>docker pull ubuntu</code></pre>
+  <p>Esse comando baixa a imagem do Ubuntu, mas ela ainda não está em execução.</p>
+
+  <h3>O que é um Container Docker?</h3>
+  <p>
+    Um <strong>Container</strong> é uma <em>instância em execução</em> de uma imagem. 
+    Usando a analogia do bolo: a imagem é a receita, o container é o bolo pronto na mesa.
+  </p>
+  <ul>
+    <li>É criado a partir de uma imagem.</li>
+    <li>É <strong>isolado</strong> (tem seu próprio sistema de arquivos, processos e rede).</li>
+    <li>É <strong>descartável</strong>: pode ser parado e removido sem afetar a imagem.</li>
+    <li>Pode ser <strong>reproduzido</strong> em qualquer máquina que tenha Docker.</li>
+  </ul>
+  <pre><code>docker run --rm ubuntu echo "Hello Docker!"</code></pre>
+  <p>
+    Neste exemplo, o Docker cria um container temporário usando a imagem <code>ubuntu</code>, 
+    executa o comando e depois remove o container.
+  </p>
+
+  <h3>🔑 Diferença resumida</h3>
+  <table border="1" cellspacing="0" cellpadding="6">
+    <thead>
+      <tr>
+        <th>Conceito</th>
+        <th>Analogia</th>
+        <th>Explicação simples</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Imagem</strong></td>
+        <td>📜 Receita de bolo</td>
+        <td>Conjunto de instruções e ingredientes (SO, libs, app)</td>
+      </tr>
+      <tr>
+        <td><strong>Container</strong></td>
+        <td>🍰 Bolo pronto</td>
+        <td>Execução real da receita (instância da imagem)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+
 
 
