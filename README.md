@@ -327,6 +327,10 @@
     Para um container em execução.
   </li>
   <li>
+    <pre><code>docker start [nome_ou_id]</code></pre>
+    Reinicia um container que está parado.
+  </li>
+  <li>
     <pre><code>docker run -d ubuntu</code></pre>
     Roda o container em background (<strong>-d</strong> = detached).
   </li>
@@ -346,11 +350,11 @@
   <li>Use <code>docker run</code> para executar containers.</li>
   <li>Use <code>-it</code> para interagir com o container.</li>
   <li>Use <code>-d</code> para rodar containers em background.</li>
+  <li>Use <code>docker start [nome_ou_id]</code> para reiniciar containers parados.</li>
   <li>Digite <code>exit</code> para sair de um container interativo.</li>
   <li>Use <code>docker stop [nome_ou_id]</code> para parar containers em execução.</li>
   <li>Com <code>docker ps</code> e <code>docker images</code> você monitora o que está rodando no seu sistema.</li>
 </ul>
-
 
 <section id="container-vs-vm">
   <h2>⚖️ Containers vs Máquinas Virtuais (VMs)</h2>
