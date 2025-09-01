@@ -286,6 +286,62 @@
   </table>
 </section>
 
+<section id="docker-images-and-commands">
+  <h2>📦 Imagens Docker e Comandos Básicos</h2>
+
+  <h3>🔎 Onde encontrar imagens?</h3>
+  <p>
+    As imagens oficiais do Docker podem ser encontradas no 
+    <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>, 
+    que funciona como um repositório central de imagens prontas para uso.
+  </p>
+  <ul>
+    <li>🔹 <code>alpine</code>: Imagem mínima baseada em Linux, super leve.</li>
+    <li>🔹 <code>ubuntu</code>: Imagem oficial do Ubuntu.</li>
+    <li>🔹 <code>debian</code>: Imagem oficial do Debian.</li>
+    <li>🔹 <code>nginx</code>: Servidor web popular.</li>
+    <li>🔹 <code>mysql</code> ou <code>postgres</code>: Bancos de dados relacionais.</li>
+  </ul>
+
+  <h3>⚙️ Comandos básicos</h3>
+  <p>Aqui estão alguns comandos essenciais para começar:</p>
+  <ul>
+    <li>
+      <pre><code>docker run --rm -it ubuntu bash</code></pre>
+      <strong>-it</strong>: Executa o container em modo interativo com terminal.
+    </li>
+    <li>
+      <pre><code>exit</code></pre>
+      Sai de um container interativo.
+    </li>
+    <li>
+      <pre><code>docker ps</code></pre>
+      Lista os containers em execução.
+    </li>
+    <li>
+      <pre><code>docker ps -a</code></pre>
+      Lista todos os containers, incluindo os parados.
+    </li>
+    <li>
+      <pre><code>docker images</code></pre>
+      Lista todas as imagens disponíveis localmente.
+    </li>
+    <li>
+      <pre><code>docker rmi [imagem]</code></pre>
+      Remove uma imagem do seu sistema.
+    </li>
+  </ul>
+
+  <h3>✅ Resumindo</h3>
+  <ul>
+    <li>Procure imagens no <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>.</li>
+    <li>Use <code>docker run</code> para executar containers.</li>
+    <li>Use <code>-it</code> para interagir com o container.</li>
+    <li>Digite <code>exit</code> para sair de um container interativo.</li>
+    <li>Com <code>docker ps</code> e <code>docker images</code> você monitora o que está rodando no seu sistema.</li>
+  </ul>
+</section>
+
 
 
 
