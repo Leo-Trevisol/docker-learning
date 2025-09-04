@@ -406,6 +406,13 @@
       <pre><code>docker inspect meu_container</code></pre>
       Este comando retorna informações como configuração, estado, rede, volumes e variáveis de ambiente do container. Útil para depuração ou para verificar detalhes como portas mapeadas ou configurações de montagem.
     </li>
+    <li>
+      <pre><code>docker stats [nome_ou_id]</code></pre>
+      Exibe estatísticas de uso de recursos de um ou mais containers em tempo real.<br>
+      Exemplo: Ver o uso de CPU, memória e rede de um container chamado <code>meu_container</code>:<br>
+      <pre><code>docker stats meu_container</code></pre>
+      Este comando mostra uma tabela com informações como uso de CPU (%), memória (usada/limite), tráfego de rede e I/O de disco. Para monitorar todos os containers em execução, use <code>docker stats</code> sem especificar um nome ou ID. Pressione <code>Ctrl+C</code> para sair do modo de monitoramento.
+    </li>
   </ul>
 
   <h3>✅ Resumindo</h3>
@@ -427,6 +434,7 @@
     <li>Use <code>docker cp</code> para copiar arquivos entre o host e containers.</li>
     <li>Use <code>docker top [nome_ou_id]</code> para visualizar os processos em execução em um container.</li>
     <li>Use <code>docker inspect [nome_ou_id]</code> para obter informações detalhadas sobre containers ou imagens.</li>
+    <li>Use <code>docker stats [nome_ou_id]</code> para monitorar o uso de recursos de containers em tempo real.</li>
     <li>Com <code>docker ps</code> e <code>docker images</code> você monitora containers e imagens.</li>
   </ul>
 </section>
