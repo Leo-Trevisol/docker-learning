@@ -392,6 +392,13 @@
       Exemplo: Copiar uma imagem do host para um container:
       <pre><code>docker cp /home/user/imagens/imagem.jpg meu_container:/app/</code></pre>
     </li>
+    <li>
+      <pre><code>docker top [nome_ou_id]</code></pre>
+      Exibe os processos em execução dentro de um container.<br>
+      Exemplo: Ver os processos ativos de um container chamado <code>meu_container</code>:<br>
+      <pre><code>docker top meu_container</code></pre>
+      Este comando mostra uma tabela com informações como PID, usuário, comando em execução e uso de recursos, semelhante ao comando <code>top</code> no Linux.
+    </li>
   </ul>
 
   <h3>✅ Resumindo</h3>
@@ -411,6 +418,7 @@
     <li>Use <code>docker system prune</code> para limpar recursos não utilizados.</li>
     <li>Use <code>docker logs [nome_ou_id]</code> para ver logs.</li>
     <li>Use <code>docker cp</code> para copiar arquivos entre o host e containers.</li>
+    <li>Use <code>docker top [nome_ou_id]</code> para visualizar os processos em execução em um container.</li>
     <li>Com <code>docker ps</code> e <code>docker images</code> você monitora containers e imagens.</li>
   </ul>
 </section>
