@@ -529,3 +529,73 @@ Por padrão, os containers do Docker rodam isolados do seu host. Para acessar um
   <li>Você pode rodar o mesmo serviço em várias portas diferentes do host, mudando apenas o primeiro número (exemplo: <code>-p 3000:80</code>, <code>-p 4000:80</code>).</li>
 </ul>
 
+<section id="criando-imagens-docker">
+  <h2>🛠️ Criando sua própria Imagem Docker</h2>
+
+  <p>
+    Além de usar imagens já prontas do <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>, 
+    você também pode <strong>criar suas próprias imagens</strong>.  
+    Para isso usamos um arquivo chamado <code>Dockerfile</code>, que contém as instruções
+    necessárias para montar a imagem.
+  </p>
+
+  <h3>📄 Exemplo de Dockerfile</h3>
+  <pre><code>FROM node
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "app.js"]</code></pre>
+
+  <ul>
+    <li><strong>FROM node</strong>: usa a imagem oficial do Node como base.</li>
+    <li><strong>WORKDIR /app</strong>: define a pasta de trabalho no container.</li>
+    <li><strong>COPY package*.json ./</strong>: copia os arquivos de dependências.</li>
+    <li><strong>RUN npm install</strong>: instala as dependências.</li>
+    <li><strong>COPY . .</strong>: copia o restante do código para o container.</li>
+    <li><strong>EXPOSE 3000</strong>: expõe a porta que o app vai rodar.</li>
+    <li><strong>CMD ["node", "app.js"]</strong>: comando que inicia o servidor.</li>
+  </ul>
+
+  <h3>📦 Criando a Imagem</h3>
+  <p>
+    Para criar a imagem a partir do <code>Dockerfile</code>, use o comando:
+  </p>
+  <pre><code>docker build -t meu-app-node .</code></pre>
+  <ul>
+    <li><strong>-t meu-app-node</strong>: dá o nome <em>meu-app-node</em> para a imagem.</li>
+    <li><strong>.</strong>: indica que o <code>Dockerfile</code> está no diretório atual.</li>
+  </ul>
+
+  <h3>🐳 Rodando o Container</h3>
+  <p>
+    Depois que a imagem for criada, você pode rodar um container com:
+  </p>
+  <pre><code>docker run -d -p 3000:3000 --name meu-container-node meu-app-node</code></pre>
+  <ul>
+    <li><strong>-d</strong>: executa em segundo plano (detached).</li>
+    <li><strong>-p 3000:3000</strong>: mapeia a porta <code>3000</code> do host para a porta <code>3000</code> do container.</li>
+    <li><strong>--name meu-container-node</strong>: dá um nome ao container.</li>
+    <li><strong>meu-app-node</strong>: é a imagem criada anteriormente.</li>
+  </ul>
+
+  <h3>🌐 Acessando o App</h3>
+  <p>
+    Agora basta abrir no navegador:
+  </p>
+  <pre><code>http://localhost:3000</code></pre>
+  <p>
+    Você verá a mensagem <strong>Hello World!</strong> do seu servidor Node.js rodando dentro do container 🚀
+  </p>
+
+  <h3>✅ Resumindo</h3>
+  <ul>
+    <li>Escreva um <code>Dockerfile</code> com as instruções da sua aplicação.</li>
+    <li>Use <code>docker build -t nome-imagem .</code> para criar a imagem.</li>
+    <li>Use <code>docker run -p porta:porta nome-imagem</code> para rodar um container.</li>
+    <li>Seu app estará acessível no navegador pela porta que você expôs.</li>
+  </ul>
+</section>
+
+
