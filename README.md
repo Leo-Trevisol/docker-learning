@@ -172,6 +172,137 @@
   </p>
 </section>
 
+<section id="docker-authentication">
+  <h2>🔐 Autenticação no Docker Hub e Publicação de Imagens</h2>
+
+  <h3>🔑 Autenticando-se no Docker Hub</h3>
+  <p>
+    Para publicar ou baixar imagens privadas do <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>, 
+    você precisa autenticar-se com sua conta Docker. Isso também é necessário para acessar imagens públicas 
+    se você atingir os limites de uso gratuito ou tiver configurado autenticação obrigatória.
+  </p>
+  <ul>
+    <li>
+      <strong>Faça login no Docker Hub:</strong><br>
+      Use o comando abaixo para autenticar-se:
+      <pre><code>docker login</code></pre>
+      Você será solicitado a inserir seu nome de usuário e senha do Docker Hub. Após o login bem-sucedido, 
+      suas credenciais serão armazenadas localmente para uso futuro.
+    </li>
+    <li>
+      <strong>Verifique sua conta:</strong><br>
+      Antes de usar o Docker Hub, certifique-se de que seu e-mail foi verificado. Acesse 
+      <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>, faça login, e verifique seu e-mail 
+      na seção de configurações da conta. Caso não tenha recebido o e-mail de verificação, solicite um novo 
+      em <strong>Account Settings > Security</strong>.
+    </li>
+    <li>
+      <strong>Usando um token de acesso pessoal (opcional):</strong><br>
+      Se sua conta tem autenticação de dois fatores (2FA) ativada, você precisará usar um token de acesso 
+      pessoal (PAT) em vez de sua senha:
+      <ul>
+        <li>Vá para <strong>Account Settings > Security > Personal Access Tokens</strong> no Docker Hub.</li>
+        <li>Crie um novo token e copie-o.</li>
+        <li>Use o token como senha ao executar:
+          <pre><code>docker login -u seu-usuario</code></pre>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <strong>Logout:</strong><br>
+      Para fazer logout do Docker Hub:
+      <pre><code>docker logout</code></pre>
+    </li>
+  </ul>
+
+  <h3>⬆️ Publicando Imagens no Docker Hub (Push)</h3>
+  <p>
+    Após criar sua própria imagem, você pode publicá-la no Docker Hub para compartilhá-la com outros ou 
+    usá-la em diferentes máquinas. Antes de fazer o push, a imagem precisa estar nomeada com o formato 
+    <code>seu-usuario/nome-imagem:tag</code>.
+  </p>
+  <ul>
+    <li>
+      <strong>Construa a imagem com um nome apropriado:</strong><br>
+      Ao criar a imagem com <code>docker build</code>, inclua seu nome de usuário do Docker Hub:
+      <pre><code>docker build -t seu-usuario/meu-app:1.0 .</code></pre>
+      Aqui, <code>seu-usuario</code> é seu nome de usuário no Docker Hub, <code>meu-app</code> é o nome 
+      do repositório, e <code>1.0</code> é a tag da versão.
+    </li>
+    <li>
+      <strong>Ou renomeie uma imagem existente:</strong><br>
+      Se a imagem já foi criada com um nome diferente, use o comando <code>docker tag</code> para renomeá-la:
+      <pre><code>docker tag meu-app-node seu-usuario/meu-app:1.0</code></pre>
+    </li>
+    <li>
+      <strong>Faça o push da imagem:</strong><br>
+      Após garantir que você está autenticado com <code>docker login</code>, publique a imagem:
+      <pre><code>docker push seu-usuario/meu-app:1.0</code></pre>
+      Isso enviará a imagem para o Docker Hub, onde ela ficará disponível no seu repositório público ou privado.
+    </li>
+    <li>
+      <strong>Verifique no Docker Hub:</strong><br>
+      Acesse <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>, vá para seus repositórios, 
+      e confirme que a imagem <code>seu-usuario/meu-app:1.0</code> está listada.
+    </li>
+  </ul>
+
+  <h3>⬇️ Baixando Imagens do Docker Hub (Pull)</h3>
+  <p>
+    Para baixar sua própria imagem ou qualquer imagem pública do Docker Hub, use o comando <code>docker pull</code>. 
+    Isso é útil para recuperar imagens que você publicou ou para usar imagens de outros usuários.
+  </p>
+  <ul>
+    <li>
+      <strong>Baixe uma imagem específica:</strong><br>
+      Para baixar a imagem que você acabou de publicar:
+      <pre><code>docker pull seu-usuario/meu-app:1.0</code></pre>
+      Se você não especificar a tag (ex.: <code>:1.0</code>), o Docker tentará baixar a tag <code>latest</code>.
+    </li>
+    <li>
+      <strong>Baixe uma imagem pública:</strong><br>
+      Para baixar imagens públicas, como a imagem oficial do Node.js:
+      <pre><code>docker pull node:18</code></pre>
+    </li>
+    <li>
+      <strong>Verifique as imagens locais:</strong><br>
+      Após o pull, liste as imagens disponíveis localmente:
+      <pre><code>docker images</code></pre>
+      Isso mostrará todas as imagens baixadas, incluindo <code>seu-usuario/meu-app:1.0</code> ou outras.
+    </li>
+  </ul>
+
+  <h3>⚠️ Solucionando Problemas Comuns</h3>
+  <ul>
+    <li>
+      <strong>Erro de autenticação:</strong><br>
+      Se você encontrar um erro como <code>unauthorized: email must be verified</code>, verifique seu e-mail 
+      no Docker Hub. Acesse <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>, faça login, e siga 
+      as instruções para verificar seu e-mail. Depois, tente <code>docker login</code> novamente.
+    </li>
+    <li>
+      <strong>Erro de permissão:</strong><br>
+      Certifique-se de que o nome da imagem inclui seu nome de usuário do Docker Hub 
+      (ex.: <code>seu-usuario/meu-app</code>). Você só pode fazer push para repositórios associados à sua conta.
+    </li>
+    <li>
+      <strong>Limites de taxa (rate limits):</strong><br>
+      O Docker Hub impõe limites para pulls anônimos e gratuitos. Se você atingir esses limites, faça login com 
+      <code>docker login</code> para usar as cotas da sua conta verificada.
+    </li>
+  </ul>
+
+  <h3>✅ Resumindo</h3>
+  <ul>
+    <li>Use <code>docker login</code> para autenticar-se no Docker Hub.</li>
+    <li>Verifique seu e-mail no Docker Hub para evitar erros de autenticação.</li>
+    <li>Use <code>docker build -t seu-usuario/nome-imagem:tag</code> ou <code>docker tag</code> para nomear imagens corretamente.</li>
+    <li>Use <code>docker push seu-usuario/nome-imagem:tag</code> para publicar imagens no Docker Hub.</li>
+    <li>Use <code>docker pull seu-usuario/nome-imagem:tag</code> para baixar imagens do Docker Hub.</li>
+    <li>Certifique-se de estar autenticado antes de fazer push ou pull de imagens privadas.</li>
+  </ul>
+</section>
+
 <section id="docker-first-container">
   <h2>🐳 Rodando seu primeiro container Docker (2025)</h2>
 
