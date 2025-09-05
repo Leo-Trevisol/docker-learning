@@ -173,7 +173,7 @@
 </section>
 
 <section id="docker-authentication">
-  <h2>🔐 Autenticação no Docker Hub e Publicação de Imagens</h2>
+  <h2>🔐 Autenticação no Docker Hub e Gerenciamento de Imagens</h2>
 
   <h3>🔑 Autenticando-se no Docker Hub</h3>
   <p>
@@ -247,17 +247,90 @@
     </li>
   </ul>
 
+  <h3>🔄 Atualizando uma Imagem no Docker Hub</h3>
+  <p>
+    Para atualizar uma imagem já publicada no Docker Hub, você precisa reconstruir a imagem com as mudanças 
+    desejadas e fazer o push novamente, seja com a mesma tag ou uma nova.
+  </p>
+  <ul>
+    <li>
+      <strong>Atualize o código ou Dockerfile:</strong><br>
+      Faça as alterações necessárias no seu projeto ou no <code>Dockerfile</code> (ex.: atualizar dependências, 
+      mudar configurações ou adicionar funcionalidades).
+    </li>
+    <li>
+      <strong>Reconstrua a imagem:</strong><br>
+      Execute o comando <code>docker build</code> com a mesma tag para sobrescrever a versão local ou uma nova 
+      tag para versionamento:
+      <pre><code>docker build -t seu-usuario/meu-app:1.0 .</code></pre>
+      Ou, para uma nova versão:
+      <pre><code>docker build -t seu-usuario/meu-app:1.1 .</code></pre>
+    </li>
+    <li>
+      <strong>Faça o push da imagem atualizada:</strong><br>
+      Após reconstruir, envie a imagem atualizada para o Docker Hub:
+      <pre><code>docker push seu-usuario/meu-app:1.0</code></pre>
+      Ou, para a nova versão:
+      <pre><code>docker push seu-usuario/meu-app:1.1</code></pre>
+      Se usar a mesma tag, a versão anterior no Docker Hub será sobrescrita. Se usar uma nova tag, ambas 
+      as versões coexistirão no repositório.
+    </li>
+    <li>
+      <strong>Gerencie versões no Docker Hub:</strong><br>
+      Acesse <a href="https://hub.docker.com/" target="_blank">Docker Hub</a> para verificar todas as tags 
+      disponíveis no seu repositório. Você pode manter várias versões (ex.: <code>1.0</code>, <code>1.1</code>, 
+      <code>latest</code>) para diferentes casos de uso.
+    </li>
+  </ul>
+
+  <h3>🏷️ Criando e Gerenciando Tags</h3>
+  <p>
+    Tags são usadas para versionar imagens e facilitar o gerenciamento de diferentes versões de uma mesma 
+    aplicação. A tag <code>latest</code> é usada por padrão se nenhuma tag for especificada, mas é uma boa 
+    prática criar tags específicas para cada versão.
+  </p>
+  <ul>
+    <li>
+      <strong>Criar uma nova tag:</strong><br>
+      Para criar uma nova tag para uma imagem existente:
+      <pre><code>docker tag seu-usuario/meu-app:1.0 seu-usuario/meu-app:1.1</code></pre>
+      Isso cria uma nova tag (<code>1.1</code>) para a mesma imagem sem modificar a original.
+    </li>
+    <li>
+      <strong>Adicionar a tag latest:</strong><br>
+      Para marcar uma imagem como <code>latest</code>:
+      <pre><code>docker tag seu-usuario/meu-app:1.1 seu-usuario/meu-app:latest</code></pre>
+      Isso associa a tag <code>latest</code> à versão <code>1.1</code>. Quando usuários executarem 
+      <code>docker pull seu-usuario/meu-app</code> sem especificar uma tag, a versão <code>latest</code> 
+      será baixada.
+    </li>
+    <li>
+      <strong>Publicar a nova tag:</strong><br>
+      Após criar uma nova tag, faça o push para o Docker Hub:
+      <pre><code>docker push seu-usuario/meu-app:1.1</code></pre>
+      <pre><code>docker push seu-usuario/meu-app:latest</code></pre>
+    </li>
+    <li>
+      <strong>Verificar tags locais:</strong><br>
+      Liste todas as imagens e suas tags disponíveis localmente:
+      <pre><code>docker images seu-usuario/meu-app</code></pre>
+      Isso mostrará todas as tags associadas ao repositório <code>seu-usuario/meu-app</code>.
+    </li>
+  </ul>
+
   <h3>⬇️ Baixando Imagens do Docker Hub (Pull)</h3>
   <p>
-    Para baixar sua própria imagem ou qualquer imagem pública do Docker Hub, use o comando <code>docker pull</code>. 
-    Isso é útil para recuperar imagens que você publicou ou para usar imagens de outros usuários.
+    Para baixar sua própria imagem ou qualquer imagem pública do Docker Hub, use o comando 
+    <code>docker pull</code>. Isso é útil para recuperar imagens que você publicou ou para usar imagens 
+    de outros usuários.
   </p>
   <ul>
     <li>
       <strong>Baixe uma imagem específica:</strong><br>
-      Para baixar a imagem que você acabou de publicar:
+      Para baixar uma imagem que você publicou, especificando a tag:
       <pre><code>docker pull seu-usuario/meu-app:1.0</code></pre>
-      Se você não especificar a tag (ex.: <code>:1.0</code>), o Docker tentará baixar a tag <code>latest</code>.
+      Se não especificar a tag, o Docker tentará baixar a tag <code>latest</code>:
+      <pre><code>docker pull seu-usuario/meu-app</code></pre>
     </li>
     <li>
       <strong>Baixe uma imagem pública:</strong><br>
@@ -290,6 +363,12 @@
       O Docker Hub impõe limites para pulls anônimos e gratuitos. Se você atingir esses limites, faça login com 
       <code>docker login</code> para usar as cotas da sua conta verificada.
     </li>
+    <li>
+      <strong>Imagem não atualizada:</strong><br>
+      Se a imagem baixada não reflete as alterações mais recentes, verifique se a tag correta foi usada. 
+      Use <code>docker pull seu-usuario/meu-app:tag</code> com a tag específica ou assegure-se de que a tag 
+      <code>latest</code> foi atualizada com <code>docker push</code>.
+    </li>
   </ul>
 
   <h3>✅ Resumindo</h3>
@@ -298,6 +377,8 @@
     <li>Verifique seu e-mail no Docker Hub para evitar erros de autenticação.</li>
     <li>Use <code>docker build -t seu-usuario/nome-imagem:tag</code> ou <code>docker tag</code> para nomear imagens corretamente.</li>
     <li>Use <code>docker push seu-usuario/nome-imagem:tag</code> para publicar imagens no Docker Hub.</li>
+    <li>Atualize imagens reconstruindo com <code>docker build</code> e fazendo push com a mesma ou nova tag.</li>
+    <li>Crie tags específicas com <code>docker tag</code> para versionamento e publique-as com <code>docker push</code>.</li>
     <li>Use <code>docker pull seu-usuario/nome-imagem:tag</code> para baixar imagens do Docker Hub.</li>
     <li>Certifique-se de estar autenticado antes de fazer push ou pull de imagens privadas.</li>
   </ul>
