@@ -1069,3 +1069,43 @@ docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
   <li>Nomeie volumes de forma clara (<code>mysql-data</code>, <code>logs-app</code>, etc.).</li>
   <li>Faça backup dos volumes regularmente.</li>
 </ul>
+
+<h2>🛠️ Criando Volumes Manualmente</h2>
+
+<p>
+  Embora o Docker crie volumes automaticamente quando você usa <code>-v</code> sem especificar nada, é uma boa prática 
+  <strong>criar volumes manualmente</strong> e dar nomes claros para facilitar o gerenciamento, backup e reutilização.
+</p>
+
+<h3>📌 Criando um volume</h3>
+<pre><code>docker volume create meu-volume</code></pre>
+<p>
+  Esse comando cria um volume chamado <code>meu-volume</code>, que fica armazenado no host (normalmente em 
+  <code>/var/lib/docker/volumes/meu-volume/</code> no Linux).
+</p>
+
+<h3>📌 Usando o volume em um container</h3>
+<pre><code>docker run -d -v meu-volume:/app/dados meu-container</code></pre>
+<ul>
+  <li><code>meu-volume</code> → nome do volume no host (criado manualmente).</li>
+  <li><code>/app/dados</code> → diretório dentro do container onde o volume será montado.</li>
+</ul>
+
+<h3>📌 Inspecionando volumes</h3>
+<pre><code>docker volume inspect meu-volume</code></pre>
+<p>
+  Mostra detalhes sobre onde o volume está armazenado, quais containers estão usando e outras informações úteis.
+</p>
+
+<h3>📌 Listando volumes</h3>
+<pre><code>docker volume ls</code></pre>
+
+<h3>📌 Removendo volumes</h3>
+<pre><code>docker volume rm meu-volume</code></pre>
+<p>
+  Remove o volume (desde que nenhum container esteja usando).  
+  Para remover todos os volumes não utilizados:
+</p>
+<pre><code>docker volume prune</code></pre>
+<p><strong>⚠️ Atenção:</strong> esse comando pode apagar dados importantes se usado sem cuidado.</p>
+
