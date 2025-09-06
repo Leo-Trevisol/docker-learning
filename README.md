@@ -980,3 +980,139 @@ app2.listen(4000);</code></pre>
     <li>Você pode rodar múltiplas aplicações no mesmo container, mas em produção prefira separar em containers diferentes.</li>
   </ul>
 </section>
+
+<h2>💾 O que são Volumes no Docker?</h2>
+
+<p>
+  Os <strong>Volumes</strong> são o recurso do Docker para garantir <strong>persistência de dados</strong>. 
+  Containers são, por natureza, <em>temporários</em>: se você parar e remover um container, todos os dados gravados dentro dele 
+  (arquivos, logs, banco de dados, uploads) são perdidos. Com volumes, esses dados podem ser armazenados fora do ciclo de vida do container, 
+  de forma independente e reutilizável.
+</p>
+
+<p>
+  Em resumo, os volumes permitem que você:
+</p>
+
+<ul>
+  <li>Mantenha dados salvos mesmo após a exclusão de um container.</li>
+  <li>Compartilhe informações entre múltiplos containers.</li>
+  <li>Tenha desempenho superior ao sistema de arquivos do container.</li>
+  <li>Faça backup ou restauração de dados de maneira simples.</li>
+</ul>
+
+<p>
+  <strong>Exemplo prático:</strong> neste repositório, criamos uma aplicação PHP simples que salva mensagens enviadas por formulário.  
+  Sem volumes, os arquivos de mensagens (<code>msg-0.txt</code>, <code>msg-1.txt</code>, etc.) seriam perdidos ao remover o container.  
+  Com volumes, eles ficam salvos e podem ser acessados em <code>http://localhost/messages/</code> mesmo depois de reiniciar ou recriar o container.
+</p>
+
+<pre><code># Executando o container com bind mount (linkando a pasta "messages" ao host)
+docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
+</code></pre>
+
+<p>
+  Agora, cada mensagem enviada será salva na pasta <code>messages</code> do host e persistirá, mesmo que o container seja removido.  
+</p>
+
+
+<h2>🗂️ Tipos de Volumes no Docker</h2>
+
+<p>O Docker trabalha basicamente com três tipos de volumes. Cada um tem seu uso e importância:</p>
+
+<h3>1. Volumes Nomeados</h3>
+<ul>
+  <li>São volumes <strong>criando com um nome definido pelo usuário</strong>, o que facilita identificar e reutilizar depois.</li>
+  <li>Gerenciados pelo Docker e armazenados em <code>/var/lib/docker/volumes/</code> no host.</li>
+  <li>Ideais para produção, porque você controla melhor o ciclo de vida e pode reaproveitar facilmente.</li>
+  <li>Exemplo:
+    <pre><code>docker run -d -v meu-volume:/var/lib/mysql mysql:8</code></pre>
+    Aqui, o volume <code>meu-volume</code> vai persistir os dados do MySQL.
+  </li>
+</ul>
+
+<h3>2. Volumes Anônimos</h3>
+<ul>
+  <li>O Docker cria automaticamente quando você usa <code>-v /caminho/no/container</code> sem especificar nome.</li>
+  <li>São úteis para testes rápidos, mas <strong>difíceis de gerenciar</strong>, já que recebem um nome aleatório.</li>
+  <li>Podem acumular e ocupar espaço no host se não forem limpos.</li>
+  <li>Exemplo:
+    <pre><code>docker run -d -v /var/lib/mysql mysql:8</code></pre>
+    O Docker cria um volume anônimo para mapear <code>/var/lib/mysql</code>.
+  </li>
+</ul>
+
+<h3>3. Bind Mounts</h3>
+<ul>
+  <li>Mapeiam diretamente uma pasta ou arquivo do host para dentro do container.</li>
+  <li>Úteis em <strong>desenvolvimento</strong>, porque as alterações feitas no host refletem no container em tempo real.</li>
+  <li>Dependem do caminho absoluto do host → menos portáveis para produção.</li>
+  <li>Exemplo prático com este projeto:
+    <pre><code>docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app</code></pre>
+    Assim, a pasta <code>./messages</code> do host fica sincronizada com <code>/var/www/html/messages</code> no container, 
+    garantindo que os arquivos de mensagens não se percam.
+  </li>
+</ul>
+
+<h3>⚙️ Comandos úteis para Volumes</h3>
+<ul>
+  <li><code>docker volume ls</code> → lista volumes existentes.</li>
+  <li><code>docker volume inspect meu-volume</code> → mostra detalhes de um volume.</li>
+  <li><code>docker volume rm meu-volume</code> → remove um volume não utilizado.</li>
+  <li><code>docker volume prune</code> → apaga volumes órfãos (cuidado: pode apagar dados importantes).</li>
+</ul>
+
+<h3>✅ Boas práticas</h3>
+<ul>
+  <li>Prefira volumes gerenciados em produção.</li>
+  <li>Use bind mounts em desenvolvimento (facilitam alterações no código).</li>
+  <li>Nomeie volumes de forma clara (<code>mysql-data</code>, <code>logs-app</code>, etc.).</li>
+  <li>Faça backup dos volumes regularmente.</li>
+</ul>
+
+<h2>🛠️ Criando Volumes Manualmente</h2>
+
+<p>
+  Embora o Docker crie volumes automaticamente quando você usa <code>-v</code> sem especificar nada, é uma boa prática 
+  <strong>criar volumes manualmente</strong> e dar nomes claros para facilitar o gerenciamento, backup e reutilização.
+</p>
+
+<h3>📌 Criando um volume</h3>
+<pre><code>docker volume create meu-volume</code></pre>
+<p>
+  Esse comando cria um volume chamado <code>meu-volume</code>, que fica armazenado no host (normalmente em 
+  <code>/var/lib/docker/volumes/meu-volume/</code> no Linux).
+</p>
+
+<h3>📌 Usando o volume em um container</h3>
+<pre><code>docker run -d -v meu-volume:/app/dados meu-container</code></pre>
+<ul>
+  <li><code>meu-volume</code> → nome do volume no host (criado manualmente).</li>
+  <li><code>/app/dados</code> → diretório dentro do container onde o volume será montado.</li>
+</ul>
+
+<h3>📌 Usando o volume em modo somente leitura</h3>
+<pre><code>docker run -d -v meu-volume:/app/dados:ro meu-container</code></pre>
+<p>
+  O sufixo <code>:ro</code> (<em>read-only</em>) garante que o container só possa <strong>ler</strong> os dados do volume, 
+  sem modificar nada. Útil em casos onde os dados devem ser consumidos mas nunca alterados, como arquivos de configuração ou datasets fixos.
+</p>
+
+<h3>📌 Inspecionando volumes</h3>
+<pre><code>docker volume inspect meu-volume</code></pre>
+<p>
+  Mostra detalhes sobre onde o volume está armazenado, quais containers estão usando e outras informações úteis.
+</p>
+
+<h3>📌 Listando volumes</h3>
+<pre><code>docker volume ls</code></pre>
+
+<h3>📌 Removendo volumes</h3>
+<pre><code>docker volume rm meu-volume</code></pre>
+<p>
+  Remove o volume (desde que nenhum container esteja usando).  
+  Para remover todos os volumes não utilizados:
+</p>
+<pre><code>docker volume prune</code></pre>
+<p><strong>⚠️ Atenção:</strong> esse comando pode apagar dados importantes se usado sem cuidado.</p>
+
