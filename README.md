@@ -984,117 +984,83 @@ app2.listen(4000);</code></pre>
 <h2>💾 O que são Volumes no Docker?</h2>
 
 <p>
-  Os <strong>Volumes</strong> são um mecanismo essencial no Docker para gerenciar a <strong>persistência de dados</strong> gerados ou utilizados por containers. Como os containers são, por natureza, <em>descartáveis</em> e <em>imutáveis</em>, qualquer dado criado dentro de um container (como arquivos, bancos de dados ou logs) é perdido quando o container é removido, a menos que você use volumes. Eles permitem que dados sejam armazenados fora do container, garantindo que persistam mesmo após o container ser parado ou deletado.
+  Os <strong>Volumes</strong> são o recurso do Docker para garantir <strong>persistência de dados</strong>. 
+  Containers são, por natureza, <em>temporários</em>: se você parar e remover um container, todos os dados gravados dentro dele 
+  (arquivos, logs, banco de dados, uploads) são perdidos. Com volumes, esses dados podem ser armazenados fora do ciclo de vida do container, 
+  de forma independente e reutilizável.
 </p>
 
 <p>
-  Em resumo, volumes são uma forma de <strong>armazenar dados de maneira persistente</strong> e compartilhar esses dados entre containers, o host ou até mesmo outros sistemas. Eles são especialmente úteis para aplicações que precisam manter estado, como bancos de dados (MySQL, PostgreSQL) ou aplicações que geram arquivos (logs, uploads de usuários, etc.).
+  Em resumo, os volumes permitem que você:
 </p>
 
-<h3>🌟 Por que usar Volumes?</h3>
 <ul>
-  <li><strong>Persistência de dados:</strong> Dados em volumes não são apagados quando o container é removido, garantindo que informações importantes sejam mantidas.</li>
-  <li><strong>Compartilhamento:</strong> Volumes podem ser compartilhados entre múltiplos containers, permitindo que diferentes serviços acessem os mesmos dados.</li>
-  <li><strong>Backup e restauração:</strong> Dados em volumes podem ser facilmente copiados ou movidos para backups ou outros ambientes.</li>
-  <li><strong>Desempenho:</strong> Volumes oferecem melhor desempenho em comparação com o sistema de arquivos interno do container, especialmente para operações intensivas de leitura/escrita.</li>
-  <li><strong>Portabilidade:</strong> Volumes podem ser gerenciados de forma independente do ciclo de vida do container, facilitando a migração de dados.</li>
+  <li>Mantenha dados salvos mesmo após a exclusão de um container.</li>
+  <li>Compartilhe informações entre múltiplos containers.</li>
+  <li>Tenha desempenho superior ao sistema de arquivos do container.</li>
+  <li>Faça backup ou restauração de dados de maneira simples.</li>
 </ul>
 
-<h3>🗂️ Tipos de Volumes no Docker</h3>
-<p>O Docker suporta três tipos principais de volumes, cada um com casos de uso específicos:</p>
-<ul>
-  <li><strong>Volumes Gerenciados (Managed Volumes):</strong>
-    <ul>
-      <li>Criados e gerenciados pelo Docker, armazenados em uma área do sistema de arquivos do host (geralmente em <code>/var/lib/docker/volumes/</code> no Linux).</li>
-      <li>São ideais para persistência de dados de longa duração, como bancos de dados.</li>
-      <li>Exemplo de criação e uso:
-        <pre><code>docker volume create meu-volume</code></pre>
-        <pre><code>docker run -d -v meu-volume:/app/dados mysql</code></pre>
-        Aqui, o volume <code>meu-volume</code> é montado no diretório <code>/app/dados</code> dentro do container MySQL.
-      </li>
-    </ul>
-  </li>
-  <li><strong>Bind Mounts:</strong>
-    <ul>
-      <li>Mapeia um diretório ou arquivo específico do host diretamente para o container.</li>
-      <li>Útil para desenvolvimento, quando você quer que o container acesse arquivos locais (ex.: código-fonte).</li>
-      <li>Exemplo:
-        <pre><code>docker run -d -v /home/user/meu-projeto:/app meu-app</code></pre>
-        Nesse caso, o diretório <code>/home/user/meu-projeto</code> do host é mapeado para <code>/app</code> no container.
-      </li>
-    </ul>
-  </li>
-  <li><strong>Volumes Temporários (tmpfs):</strong>
-    <ul>
-      <li>Armazenados na memória RAM do host, não no disco, e são apagados quando o container é removido.</li>
-      <li>Ideais para dados sensíveis ou temporários, como caches ou chaves temporárias.</li>
-      <li>Exemplo:
-        <pre><code>docker run -d --tmpfs /tmp meu-app</code></pre>
-        Aqui, o diretório <code>/tmp</code> no container é montado como um volume temporário na RAM.
-      </li>
-    </ul>
-  </li>
-</ul>
+<p>
+  <strong>Exemplo prático:</strong> neste repositório, criamos uma aplicação PHP simples que salva mensagens enviadas por formulário.  
+  Sem volumes, os arquivos de mensagens (<code>msg-0.txt</code>, <code>msg-1.txt</code>, etc.) seriam perdidos ao remover o container.  
+  Com volumes, eles ficam salvos e podem ser acessados em <code>http://localhost/messages/</code> mesmo depois de reiniciar ou recriar o container.
+</p>
 
-<h3>⚙️ Comandos Úteis para Volumes</h3>
-<p>Alguns comandos básicos para gerenciar volumes no Docker:</p>
-<ul>
-  <li>
-    <pre><code>docker volume create meu-volume</code></pre>
-    Cria um volume gerenciado pelo Docker.
-  </li>
-  <li>
-    <pre><code>docker volume ls</code></pre>
-    Lista todos os volumes disponíveis no sistema.
-  </li>
-  <li>
-    <pre><code>docker volume inspect meu-volume</code></pre>
-    Exibe detalhes sobre um volume específico, como o local onde está armazenado no host.
-  </li>
-  <li>
-    <pre><code>docker volume rm meu-volume</code></pre>
-    Remove um volume (só funciona se nenhum container estiver usando o volume).
-  </li>
-  <li>
-    <pre><code>docker volume prune</code></pre>
-    Remove todos os volumes não utilizados. <strong>⚠️ Cuidado:</strong> isso pode apagar dados importantes se não for usado com atenção.
-  </li>
-</ul>
-
-<h3>📚 Exemplo Prático: Usando Volumes com MySQL</h3>
-<p>Imagine que você quer rodar um container MySQL e garantir que os dados do banco persistam mesmo após o container ser removido:</p>
-<pre><code>docker volume create mysql-data
-docker run -d --name meu-mysql -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=senha123 mysql:8
+<pre><code># Executando o container com bind mount (linkando a pasta "messages" ao host)
+docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
 </code></pre>
-<ul>
-  <li><strong>mysql-data</strong>: Volume criado para armazenar os dados do MySQL.</li>
-  <li><strong>-v mysql-data:/var/lib/mysql</strong>: Mapeia o volume para o diretório onde o MySQL armazena seus dados.</li>
-  <li><strong>-e MYSQL_ROOT_PASSWORD=senha123</strong>: Define a senha do usuário root do MySQL.</li>
-</ul>
+
 <p>
-  Agora, mesmo que o container <code>meu-mysql</code> seja removido com <code>docker rm meu-mysql</code>, os dados do banco permanecerão no volume <code>mysql-data</code>. Você pode criar um novo container e reutilizar o mesmo volume:
-</p>
-<pre><code>docker run -d --name novo-mysql -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=senha123 mysql:8</code></pre>
-<p>
-  Todos os dados do banco de dados anterior estarão disponíveis no novo container.
+  Agora, cada mensagem enviada será salva na pasta <code>messages</code> do host e persistirá, mesmo que o container seja removido.  
 </p>
 
-<h3>⚠️ Boas Práticas com Volumes</h3>
+
+<h2>🗂️ Tipos de Volumes no Docker</h2>
+
+<p>O Docker suporta três tipos principais de volumes, cada um com objetivos diferentes:</p>
+
+<h3>1. Volumes Gerenciados (Managed Volumes)</h3>
 <ul>
-  <li><strong>Use volumes gerenciados para produção:</strong> Eles são mais fáceis de gerenciar e oferecem maior controle pelo Docker.</li>
-  <li><strong>Evite bind mounts em produção:</strong> Bind mounts dependem de caminhos específicos no host, o que pode dificultar a portabilidade.</li>
-  <li><strong>Nomeie seus volumes:</strong> Evite volumes anônimos (criados automaticamente sem nome), pois são mais difíceis de gerenciar. Use <code>docker volume create</code> para criar volumes com nomes claros.</li>
-  <li><strong>Faça backup regularmente:</strong> Volumes podem ser copiados ou exportados para backups usando ferramentas como <code>tar</code> ou soluções específicas de backup.</li>
-  <li><strong>Limpe volumes não utilizados:</strong> Use <code>docker volume prune</code> com cuidado para liberar espaço, mas sempre verifique se os volumes não contêm dados importantes.</li>
+  <li>Criados e administrados pelo Docker, ficam em <code>/var/lib/docker/volumes/</code> (Linux).</li>
+  <li>São ideais para persistência de dados em produção, como bancos de dados (MySQL, PostgreSQL).</li>
+  <li>Exemplo:
+    <pre><code>docker volume create meu-volume
+docker run -d -v meu-volume:/var/lib/mysql mysql:8</code></pre>
+  </li>
 </ul>
 
-<h3>✅ Resumindo</h3>
+<h3>2. Bind Mounts</h3>
 <ul>
-  <li>Volumes são usados para <strong>persistir dados</strong> fora do ciclo de vida de um container.</li>
-  <li>Existem três tipos: <strong>volumes gerenciados</strong>, <strong>bind mounts</strong> e <strong>tmpfs</strong>.</li>
-  <li>Use <code>docker volume create</code> para criar volumes e <code>-v</code> para montá-los em containers.</li>
-  <li>Volumes são ideais para bancos de dados, arquivos de log ou qualquer dado que precise persistir.</li>
-  <li>Comandos como <code>docker volume ls</code>, <code>inspect</code> e <code>prune</code> ajudam a gerenciar volumes.</li>
-  <li>Siga boas práticas, como nomear volumes e evitar bind mounts em produção, para facilitar o gerenciamento.</li>
+  <li>Mapeiam uma pasta/arquivo do host diretamente para dentro do container.</li>
+  <li>Úteis em desenvolvimento, pois permitem refletir alterações do código sem rebuildar a imagem.</li>
+  <li>Exemplo (usado neste projeto):
+    <pre><code>docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app</code></pre>
+    Aqui, a pasta <code>./messages</code> do host é sincronizada com <code>/var/www/html/messages</code> dentro do container.
+  </li>
 </ul>
 
+<h3>3. Volumes Temporários (tmpfs)</h3>
+<ul>
+  <li>Existem apenas em memória (RAM) do host, são rápidos mas voláteis.</li>
+  <li>Perfeitos para dados temporários ou sensíveis (como chaves de sessão).</li>
+  <li>Exemplo:
+    <pre><code>docker run -d --tmpfs /tmp meu-app</code></pre>
+  </li>
+</ul>
+
+<h3>⚙️ Comandos úteis para Volumes</h3>
+<ul>
+  <li><code>docker volume ls</code> → lista volumes existentes.</li>
+  <li><code>docker volume inspect meu-volume</code> → mostra detalhes de um volume.</li>
+  <li><code>docker volume rm meu-volume</code> → remove um volume não utilizado.</li>
+  <li><code>docker volume prune</code> → apaga volumes órfãos (cuidado: pode apagar dados importantes).</li>
+</ul>
+
+<h3>✅ Boas práticas</h3>
+<ul>
+  <li>Prefira volumes gerenciados em produção.</li>
+  <li>Use bind mounts em desenvolvimento (facilitam alterações no código).</li>
+  <li>Nomeie volumes de forma clara (<code>mysql-data</code>, <code>logs-app</code>, etc.).</li>
+  <li>Faça backup dos volumes regularmente.</li>
+</ul>
