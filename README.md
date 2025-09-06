@@ -1091,6 +1091,13 @@ docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
   <li><code>/app/dados</code> → diretório dentro do container onde o volume será montado.</li>
 </ul>
 
+<h3>📌 Usando o volume em modo somente leitura</h3>
+<pre><code>docker run -d -v meu-volume:/app/dados:ro meu-container</code></pre>
+<p>
+  O sufixo <code>:ro</code> (<em>read-only</em>) garante que o container só possa <strong>ler</strong> os dados do volume, 
+  sem modificar nada. Útil em casos onde os dados devem ser consumidos mas nunca alterados, como arquivos de configuração ou datasets fixos.
+</p>
+
 <h3>📌 Inspecionando volumes</h3>
 <pre><code>docker volume inspect meu-volume</code></pre>
 <p>
