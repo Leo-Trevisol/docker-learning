@@ -1018,34 +1018,39 @@ docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
 
 <h2>🗂️ Tipos de Volumes no Docker</h2>
 
-<p>O Docker suporta três tipos principais de volumes, cada um com objetivos diferentes:</p>
+<p>O Docker trabalha basicamente com três tipos de volumes. Cada um tem seu uso e importância:</p>
 
-<h3>1. Volumes Gerenciados (Managed Volumes)</h3>
+<h3>1. Volumes Nomeados</h3>
 <ul>
-  <li>Criados e administrados pelo Docker, ficam em <code>/var/lib/docker/volumes/</code> (Linux).</li>
-  <li>São ideais para persistência de dados em produção, como bancos de dados (MySQL, PostgreSQL).</li>
+  <li>São volumes <strong>criando com um nome definido pelo usuário</strong>, o que facilita identificar e reutilizar depois.</li>
+  <li>Gerenciados pelo Docker e armazenados em <code>/var/lib/docker/volumes/</code> no host.</li>
+  <li>Ideais para produção, porque você controla melhor o ciclo de vida e pode reaproveitar facilmente.</li>
   <li>Exemplo:
-    <pre><code>docker volume create meu-volume
-docker run -d -v meu-volume:/var/lib/mysql mysql:8</code></pre>
+    <pre><code>docker run -d -v meu-volume:/var/lib/mysql mysql:8</code></pre>
+    Aqui, o volume <code>meu-volume</code> vai persistir os dados do MySQL.
   </li>
 </ul>
 
-<h3>2. Bind Mounts</h3>
+<h3>2. Volumes Anônimos</h3>
 <ul>
-  <li>Mapeiam uma pasta/arquivo do host diretamente para dentro do container.</li>
-  <li>Úteis em desenvolvimento, pois permitem refletir alterações do código sem rebuildar a imagem.</li>
-  <li>Exemplo (usado neste projeto):
+  <li>O Docker cria automaticamente quando você usa <code>-v /caminho/no/container</code> sem especificar nome.</li>
+  <li>São úteis para testes rápidos, mas <strong>difíceis de gerenciar</strong>, já que recebem um nome aleatório.</li>
+  <li>Podem acumular e ocupar espaço no host se não forem limpos.</li>
+  <li>Exemplo:
+    <pre><code>docker run -d -v /var/lib/mysql mysql:8</code></pre>
+    O Docker cria um volume anônimo para mapear <code>/var/lib/mysql</code>.
+  </li>
+</ul>
+
+<h3>3. Bind Mounts</h3>
+<ul>
+  <li>Mapeiam diretamente uma pasta ou arquivo do host para dentro do container.</li>
+  <li>Úteis em <strong>desenvolvimento</strong>, porque as alterações feitas no host refletem no container em tempo real.</li>
+  <li>Dependem do caminho absoluto do host → menos portáveis para produção.</li>
+  <li>Exemplo prático com este projeto:
     <pre><code>docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app</code></pre>
-    Aqui, a pasta <code>./messages</code> do host é sincronizada com <code>/var/www/html/messages</code> dentro do container.
-  </li>
-</ul>
-
-<h3>3. Volumes Temporários (tmpfs)</h3>
-<ul>
-  <li>Existem apenas em memória (RAM) do host, são rápidos mas voláteis.</li>
-  <li>Perfeitos para dados temporários ou sensíveis (como chaves de sessão).</li>
-  <li>Exemplo:
-    <pre><code>docker run -d --tmpfs /tmp meu-app</code></pre>
+    Assim, a pasta <code>./messages</code> do host fica sincronizada com <code>/var/www/html/messages</code> no container, 
+    garantindo que os arquivos de mensagens não se percam.
   </li>
 </ul>
 
