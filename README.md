@@ -1077,42 +1077,56 @@ docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
   <strong>criar volumes manualmente</strong> e dar nomes claros para facilitar o gerenciamento, backup e reutilização.
 </p>
 
-<h3>📌 Criando um volume</h3>
-<pre><code>docker volume create meu-volume</code></pre>
-<p>
-  Esse comando cria um volume chamado <code>meu-volume</code>, que fica armazenado no host (normalmente em 
-  <code>/var/lib/docker/volumes/meu-volume/</code> no Linux).
-</p>
-
-<h3>📌 Usando o volume em um container</h3>
-<pre><code>docker run -d -v meu-volume:/app/dados meu-container</code></pre>
 <ul>
-  <li><code>meu-volume</code> → nome do volume no host (criado manualmente).</li>
-  <li><code>/app/dados</code> → diretório dentro do container onde o volume será montado.</li>
+  <li>
+    <h3>Criando um volume</h3>
+    <pre><code>docker volume create meu-volume</code></pre>
+    <p>
+      Esse comando cria um volume chamado <code>meu-volume</code>, que fica armazenado no host (normalmente em 
+      <code>/var/lib/docker/volumes/meu-volume/</code> no Linux).
+    </p>
+  </li>
+
+  <li>
+    <h3>Usando o volume em um container</h3>
+    <pre><code>docker run -d -v meu-volume:/app/dados meu-container</code></pre>
+    <ul>
+      <li><code>meu-volume</code> → nome do volume no host (criado manualmente).</li>
+      <li><code>/app/dados</code> → diretório dentro do container onde o volume será montado.</li>
+    </ul>
+  </li>
+
+  <li>
+    <h3>Usando o volume em modo somente leitura</h3>
+    <pre><code>docker run -d -v meu-volume:/app/dados:ro meu-container</code></pre>
+    <p>
+      O sufixo <code>:ro</code> (<em>read-only</em>) garante que o container só possa <strong>ler</strong> os dados do volume, 
+      sem modificar nada. Útil em casos onde os dados devem ser consumidos mas nunca alterados, como arquivos de configuração ou datasets fixos.
+    </p>
+  </li>
+
+  <li>
+    <h3>Inspecionando volumes</h3>
+    <pre><code>docker volume inspect meu-volume</code></pre>
+    <p>
+      Mostra detalhes sobre onde o volume está armazenado, quais containers estão usando e outras informações úteis.
+    </p>
+  </li>
+
+  <li>
+    <h3>Listando volumes</h3>
+    <pre><code>docker volume ls</code></pre>
+  </li>
+
+  <li>
+    <h3>Removendo volumes</h3>
+    <pre><code>docker volume rm meu-volume</code></pre>
+    <p>
+      Remove o volume (desde que nenhum container esteja usando).  
+      Para remover todos os volumes não utilizados:
+    </p>
+    <pre><code>docker volume prune</code></pre>
+    <p><strong>⚠️ Atenção:</strong> esse comando pode apagar dados importantes se usado sem cuidado.</p>
+  </li>
 </ul>
-
-<h3>📌 Usando o volume em modo somente leitura</h3>
-<pre><code>docker run -d -v meu-volume:/app/dados:ro meu-container</code></pre>
-<p>
-  O sufixo <code>:ro</code> (<em>read-only</em>) garante que o container só possa <strong>ler</strong> os dados do volume, 
-  sem modificar nada. Útil em casos onde os dados devem ser consumidos mas nunca alterados, como arquivos de configuração ou datasets fixos.
-</p>
-
-<h3>📌 Inspecionando volumes</h3>
-<pre><code>docker volume inspect meu-volume</code></pre>
-<p>
-  Mostra detalhes sobre onde o volume está armazenado, quais containers estão usando e outras informações úteis.
-</p>
-
-<h3>📌 Listando volumes</h3>
-<pre><code>docker volume ls</code></pre>
-
-<h3>📌 Removendo volumes</h3>
-<pre><code>docker volume rm meu-volume</code></pre>
-<p>
-  Remove o volume (desde que nenhum container esteja usando).  
-  Para remover todos os volumes não utilizados:
-</p>
-<pre><code>docker volume prune</code></pre>
-<p><strong>⚠️ Atenção:</strong> esse comando pode apagar dados importantes se usado sem cuidado.</p>
 
