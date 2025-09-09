@@ -1130,3 +1130,195 @@ docker run -d -p 80:80 -v $(pwd)/messages:/var/www/html/messages meu-php-app
   </li>
 </ul>
 
+<h2>🌐 Conectando Containers com Networks no Docker</h2>
+
+<p>
+  No Docker, <strong>networks</strong> definem como os containers se comunicam entre si e (opcionalmente) com o mundo externo.
+  Elas oferecem isolamento, resolução de nomes (<em>DNS</em> interno), sub-redes e regras de comunicação previsíveis.
+  Em vez de ligar containers por IP (que muda), você usa <strong>nomes de serviço</strong> ou <strong>aliases</strong>.
+</p>
+
+<h3>🔑 Conceitos-chave</h3>
+<ul>
+  <li><strong>Isolamento:</strong> cada network é um domínio de broadcast separado; containers só se veem se estiverem na mesma network.</li>
+  <li><strong>DNS interno:</strong> o Docker resolve automaticamente o nome do container para o IP dentro da network.</li>
+  <li><strong>Portas:</strong> expor/publicar portas (<code>-p</code>) é para acesso <em>externo</em>; entre containers na mesma network não é necessário mapear portas.</li>
+</ul>
+
+<pre>
+Host ──(porta 8080 mapeada)──► Container web:80
+          ▲
+          │ (não precisa mapear portas entre containers)
+          └───────► Container db:3306 (mesma network, acesso por nome "db")
+</pre>
+
+<hr/>
+
+<h2>🧭 Tipos de Network</h2>
+
+<h3>1) bridge (padrão)</h3>
+<p>
+  Rede local criada no host (NAT). Boa para desenvolvimento e cenários single-host.
+  Containers se comunicam entre si pelo nome dentro da mesma bridge.
+</p>
+
+<h3>2) host</h3>
+<p>
+  O container compartilha a pilha de rede do host (sem isolamento de portas). Útil para serviços que precisam de performance
+  de rede máxima ou descoberta de multicast/UDP sem NAT. Só Linux.
+</p>
+
+<h3>3) none</h3>
+<p>
+  Sem rede (isolamento total). Útil para <em>jobs</em> offline, processamento batch, ou segurança extra.
+</p>
+
+<h3>4) overlay (Swarm/K8s)</h3>
+<p>
+  Rede distribuída que conecta containers em múltiplos hosts (cluster). Requer Docker Swarm/Kubernetes.
+</p>
+
+<h3>5) macvlan</h3>
+<p>
+  Atribui um MAC próprio ao container e o liga diretamente à rede física (parece um dispositivo na LAN). Útil para
+  integrar com infra já existente que exige IPs “reais”.
+</p>
+
+<hr/>
+
+<h2>🛠️ Criando e Conectando Containers (bridge)</h2>
+
+<h3>1) Criar uma network</h3>
+<pre><code>docker network create --driver bridge minha-net</code></pre>
+
+<h3>2) Rodar containers já conectados</h3>
+<pre><code>docker run -d --name db --network minha-net -e MYSQL_ROOT_PASSWORD=senha mysql:8
+docker run -d --name web --network minha-net -p 8080:80 meu-web:latest</code></pre>
+<p>
+  Agora o container <code>web</code> acessa o banco usando <code>db:3306</code> (por nome!). Do host, acesse o web em <code>http://localhost:8080</code>.
+</p>
+
+<h3>3) Conectar/Desconectar depois de rodar</h3>
+<pre><code>docker network connect minha-net web
+docker network disconnect minha-net web</code></pre>
+
+<h3>4) Ver redes e detalhes</h3>
+<pre><code>docker network ls
+docker network inspect minha-net</code></pre>
+
+<hr/>
+
+<h2>🧩 Resolução de Nomes e Aliases</h2>
+<p>
+  O DNS interno do Docker resolve o <strong>nome do container</strong> e também <strong>aliases</strong> configurados na network.
+</p>
+
+<h3>Adicionar alias ao conectar</h3>
+<pre><code>docker network connect --alias banco minha-net db</code></pre>
+<p>
+  Agora, na mesma network, <code>db</code> também responde por <code>banco</code>.
+</p>
+
+<hr/>
+
+<h2>🔓 Publicar Portas x Comunicação Interna</h2>
+<ul>
+  <li><strong>Entre containers (mesma network):</strong> acesse por <code>nome:porta-interna</code>. Não use <code>-p</code>.</li>
+  <li><strong>Do host/externo:</strong> publique portas com <code>-p HOST:CONTAINER</code>.</li>
+</ul>
+
+<pre><code># Não precisa para web->db
+# Precisa para acessar web via navegador no host
+docker run -d --network minha-net -p 8080:80 meu-web</code></pre>
+
+<hr/>
+
+<h2>🧪 Exemplo prático (web + db + app)</h2>
+
+<h3>Subir três containers na mesma network</h3>
+<pre><code>docker network create minha-net
+
+docker run -d --name db --network minha-net \
+  -e MYSQL_ROOT_PASSWORD=senha -e MYSQL_DATABASE=appdb mysql:8
+
+docker run -d --name api --network minha-net \
+  -e DB_HOST=db -e DB_NAME=appdb -e DB_USER=root -e DB_PASS=senha minha-api:latest
+
+docker run -d --name web --network minha-net -p 8080:80 \
+  -e API_URL=http://api:3000 minha-web:latest</code></pre>
+<p>
+  A API acessa <code>db</code> via <code>DB_HOST=db</code>. O front-end chama <code>http://api:3000</code> pelo nome <code>api</code>.
+</p>
+
+<hr/>
+
+<h2>🧾 Docker Compose (rede automática e nomes por serviço)</h2>
+
+<pre><code>version: "3.9"
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: senha
+      MYSQL_DATABASE: appdb
+    networks:
+      - appnet
+
+  api:
+    build: ./api
+    environment:
+      DB_HOST: db
+      DB_NAME: appdb
+      DB_USER: root
+      DB_PASS: senha
+    depends_on: [db]
+    networks:
+      - appnet
+
+  web:
+    build: ./web
+    ports:
+      - "8080:80"
+    environment:
+      API_URL: "http://api:3000"
+    depends_on: [api]
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge</code></pre>
+<p>
+  Com <code>docker compose up -d</code>, os serviços compartilham <code>appnet</code> e se resolvem por <strong>nome do serviço</strong> (db, api, web).
+</p>
+
+<hr/>
+
+<h2>🛡️ Boas Práticas e Dicas</h2>
+<ul>
+  <li><strong>Crie uma network por aplicação</strong> para isolar serviços.</li>
+  <li><strong>Não exponha portas desnecessárias</strong>; prefira comunicação interna por nome.</li>
+  <li><strong>Use aliases</strong> para compatibilidade (ex.: <code>banco</code>, <code>cache</code>).</li>
+  <li><strong>Evite --link</strong> (obsoleto). Prefira networks + DNS interno.</li>
+  <li><strong>Defina sub-rede customizada</strong> quando precisar de IPs previsíveis:
+    <pre><code>docker network create --driver bridge --subnet 172.30.0.0/16 minha-net</code></pre>
+  </li>
+  <li><strong>Debug rápido:</strong>
+    <pre><code>docker exec -it web sh
+# dentro do container:
+apk add --no-cache curl      # (Alpine) ou apt-get update &amp;&amp; apt-get install -y curl
+curl http://api:3000/health</code></pre>
+  </li>
+</ul>
+
+<hr/>
+
+<h2>🧹 Troubleshooting</h2>
+<ul>
+  <li><strong>“Connection refused”:</strong> serviço alvo não está ouvindo ou porta errada; verifique logs e <code>EXPOSE</code> na imagem (apenas documentação, mas ajuda).</li>
+  <li><strong>Sem resolução de nome:</strong> containers não estão na mesma network; confira com <code>docker network inspect</code>.</li>
+  <li><strong>Conflito de portas no host:</strong> altere o lado esquerdo do <code>-p</code> (ex.: <code>8081:80</code>).</li>
+  <li><strong>Firewall/iptables:</strong> em servidores, políticas podem bloquear tráfego; revise regras.</li>
+</ul>
+
+
