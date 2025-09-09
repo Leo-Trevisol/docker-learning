@@ -1206,6 +1206,18 @@ docker network disconnect minha-net web</code></pre>
 <pre><code>docker network ls
 docker network inspect minha-net</code></pre>
 
+<h3>5) Remover uma network</h3>
+<pre><code>docker network rm minha-net</code></pre>
+<p>
+  Remove a rede <code>minha-net</code>. Atenção: não pode haver containers em uso nessa rede.
+</p>
+
+<h3>6) Remover todas as networks não utilizadas</h3>
+<pre><code>docker network prune</code></pre>
+<p>
+  Remove todas as redes que não têm containers conectados. Será exibida uma mensagem de confirmação antes da exclusão.
+</p>
+
 <hr/>
 
 <h2>🧩 Resolução de Nomes e Aliases</h2>
