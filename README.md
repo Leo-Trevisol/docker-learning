@@ -1220,3 +1220,54 @@ docker network inspect minha-net</code></pre>
 
 <hr/>
 
+<h2>🏗️ Arquitetura de Containers Flask com Conexão Externa</h2>
+
+<h3>🌐 1. Container Externo (flaskexterna)</h3>
+<p>
+  Este container executa um serviço Flask que funciona como uma API externa. Ele é responsável por fornecer dados de usuários aleatórios através da API <a href="https://randomuser.me/api" target="_blank">randomuser.me</a>.
+</p>
+<ul>
+  <li> Base: Python 3</li>
+  <li> Dependências: Flask, requests</li>
+  <li> Porta exposta: 5000</li>
+  <li> Arquivo principal: <code>app.py</code></li>
+  <li> Funcionalidade: Retorna JSON com dados de usuários ao acessar a rota <code>/</code></li>
+</ul>
+
+<h3>🏠 2. Container Host (flaskhost)</h3>
+<p>
+  Este container executa um serviço Flask que atua como “host” e se conecta ao container externo para consumir dados, além de integrar com banco de dados MySQL.
+</p>
+<ul>
+  <li> Base: Python 3</li>
+  <li> Dependências: Flask, requests, flask_mysqldb</li>
+  <li> Banco de dados: MySQL rodando no host (configurado como <code>host.docker.internal</code>)</li>
+  <li> Porta exposta: 5000</li>
+  <li> Rotas:</li>
+  <ul>
+    <li><code>/</code>: Faz requisição GET para o container externo ou API externa</li>
+    <li><code>/inserthost</code>: Insere no banco de dados um usuário obtido da API externa</li>
+  </ul>
+</ul>
+
+<h3>🔗 3. Comunicação entre Containers</h3>
+<p>
+  O container host se comunica com o container externo ou API externa usando a biblioteca <code>requests</code>.  
+  Para se conectar ao MySQL do host, usamos o endereço especial <code>host.docker.internal</code>, que aponta para o host da máquina Docker.
+</p>
+
+<h3>📊 4. Fluxo de Dados</h3>
+<ol>
+  <li> O usuário acessa a rota <code>/</code> do container host.</li>
+  <li> O container host faz uma requisição HTTP para o container externo ou API externa.</li>
+  <li> Os dados retornados são processados e/ou armazenados no banco MySQL.</li>
+  <li> O container host retorna o JSON final para o cliente.</li>
+</ol>
+
+<h3>⚙️ 5. Como Rodar</h3>
+<p>
+  <strong>Container Externo:</strong> <code>docker run -d -p 5001:5000 --name flaskexternacontainer flaskexterna</code><br>
+  <strong>Container Host:</strong> <code>docker run -d -p 5000:5000 --name flaskhostcontainer flaskhost</code>
+</p>
+
+
