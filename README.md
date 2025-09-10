@@ -1256,7 +1256,7 @@ docker network inspect minha-net</code></pre>
   Para se conectar ao MySQL do host, usamos o endereço especial <code>host.docker.internal</code>, que aponta para o host da máquina Docker.
 </p>
 
-<h3>📊 4. Fluxo de Dados</h3>
+<h3>✅ 4. Fluxo de Dados</h3>
 <ol>
   <li> O usuário acessa a rota <code>/</code> do container host.</li>
   <li> O container host faz uma requisição HTTP para o container externo ou API externa.</li>
@@ -1328,7 +1328,7 @@ docker run -d -p 5000:5000 --name flask_api_container --rm --network flasknetwor
   (via <a href="https://randomuser.me/api" target="_blank">randomuser.me</a>) e insere registros no banco MySQL rodando no outro container.
 </p>
 
-<h3>📊 6. Fluxo Resumido</h3>
+<h3>✅ 6. Fluxo Resumido</h3>
 <ol>
   <li>Usuário faz requisição no endpoint Flask (<code>/inserthost</code>).</li>
   <li>Flask busca dados aleatórios na API externa.</li>
