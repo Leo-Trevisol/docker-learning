@@ -1328,13 +1328,41 @@ docker run -d -p 5000:5000 --name flask_api_container --rm --network flasknetwor
   (via <a href="https://randomuser.me/api" target="_blank">randomuser.me</a>) e insere registros no banco MySQL rodando no outro container.
 </p>
 
-<h3>✅ 6. Fluxo Resumido</h3>
+<hr/>
+
+<h2>🔗 6. Conectando e Desconectando Containers em Networks</h2>
+
+<p>
+  Caso você tenha criado uma network depois de subir um container, ou precise mover containers entre redes, 
+  o Docker permite conectar ou desconectar containers a uma network existente.
+</p>
+
+<h3>🛠️ Conectar um container a uma network existente</h3>
+<pre><code>docker network connect flasknetwork flask_api_container
+docker network connect flasknetwork mysql_api_container
+</code></pre>
+<p>
+  Com isso, ambos os containers estão na mesma network <code>flasknetwork</code> e podem se comunicar usando os nomes dos containers.
+</p>
+
+<h3>🛑 Desconectar um container de uma network</h3>
+<pre><code>docker network disconnect flasknetwork flask_api_container
+docker network disconnect flasknetwork mysql_api_container
+</code></pre>
+<p>
+  Um container desconectado não consegue mais acessar outros containers nessa rede.
+</p>
+
+<hr/>
+
+<h3>✅ 7. Fluxo Resumido da Comunicação</h3>
 <ol>
-  <li>Usuário faz requisição no endpoint Flask (<code>/inserthost</code>).</li>
-  <li>Flask busca dados aleatórios na API externa.</li>
-  <li>Flask conecta no MySQL <em>dentro da network</em> e salva os dados.</li>
-  <li>MySQL persiste os registros no banco <code>flaskdocker</code>.</li>
+  <li>Usuário faz requisição no endpoint Flask do container host (<code>/inserthost</code>).</li>
+  <li>O container host Flask consome dados aleatórios do container externo ou da API externa.</li>
+  <li>O host Flask conecta ao MySQL <em>pela network</em> e insere os dados recebidos.</li>
+  <li>O MySQL persiste os registros no banco <code>flaskdocker</code>, disponíveis para consultas futuras.</li>
 </ol>
+
 
 
 
