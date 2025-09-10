@@ -1270,4 +1270,71 @@ docker network inspect minha-net</code></pre>
   <strong>Container Host:</strong> <code>docker run -d -p 5000:5000 --name flaskhostcontainer flaskhost</code>
 </p>
 
+<hr/>
+
+<h2>🤝 Conexão Entre Containers (Flask + MySQL)</h2>
+
+<p>
+  Além da comunicação com containers externos, também é possível conectar múltiplos containers em uma mesma <strong>network</strong>
+  para que conversem entre si usando apenas o <em>nome do serviço</em>, sem precisar expor portas para o host.
+</p>
+
+<h3>🧱 1. Estrutura</h3>
+<ul>
+  <li><strong>MySQL Container:</strong> roda o banco de dados, inicializado com um <code>schema.sql</code> customizado.</li>
+  <li><strong>Flask Container:</strong> expõe uma API com rotas que consomem dados externos e os inserem no MySQL.</li>
+  <li><strong>Network:</strong> ambos os containers estão na mesma rede bridge (<code>flasknetwork</code>), o que permite comunicação por nome.</li>
+</ul>
+
+<h3>🐳 2. Dockerfiles</h3>
+
+<strong>MySQL</strong> (<code>Dockerfile</code>):
+<pre><code>FROM mysql:5.7
+
+COPY schema.sql /docker-entrypoint-initdb.d/
+EXPOSE 3306
+VOLUME /backup/
+</code></pre>
+
+<strong>Flask</strong> (<code>Dockerfile</code>):
+<pre><code>FROM python:3
+
+WORKDIR /app
+RUN pip install Flask requests flask_mysqldb
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"]
+</code></pre>
+
+<h3>⚙️ 3. Subindo os Containers</h3>
+
+<p>Primeiro criamos a network:</p>
+<pre><code>docker network create flasknetwork</code></pre>
+
+<p>Depois subimos os serviços já conectados na mesma rede:</p>
+<pre><code>docker run -d -p 3307:3306 --name mysql_api_container --network flasknetwork -e MYSQL_ROOT_PASSWORD=root mysqlnetworkapi
+docker run -d -p 5000:5000 --name flask_api_container --rm --network flasknetwork flasknetworkapi
+</code></pre>
+
+<h3>🔗 4. Comunicação</h3>
+<ul>
+  <li>O container Flask acessa o MySQL pelo nome <code>mysql_api_container</code> na porta <code>3306</code>.</li>
+  <li>Não é necessário mapear portas entre os containers, apenas para o host quando queremos acessar do Postman ou navegador.</li>
+</ul>
+
+<h3>🚀 5. Testando com Postman</h3>
+<p>
+  Ao enviar uma requisição <code>GET</code> para <code>http://localhost:5000/inserthost</code>, o container Flask consome dados externos
+  (via <a href="https://randomuser.me/api" target="_blank">randomuser.me</a>) e insere registros no banco MySQL rodando no outro container.
+</p>
+
+<h3>📊 6. Fluxo Resumido</h3>
+<ol>
+  <li>Usuário faz requisição no endpoint Flask (<code>/inserthost</code>).</li>
+  <li>Flask busca dados aleatórios na API externa.</li>
+  <li>Flask conecta no MySQL <em>dentro da network</em> e salva os dados.</li>
+  <li>MySQL persiste os registros no banco <code>flaskdocker</code>.</li>
+</ol>
+
+
 
