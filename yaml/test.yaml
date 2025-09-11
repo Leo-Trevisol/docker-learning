@@ -1,0 +1,24 @@
+nome : "Leo"
+idade: 22
+
+objeto:
+  versao : 1.0
+  ativo : true
+
+
+  string_sem_aspas : teste
+  string_com_aspas_simples : 'teste'
+  string_com_aspas_duplas : "teste"
+
+  lista:
+    - item1
+    - item2
+    - item3 # Comentário em lista
+
+  lista_dois: [item1, item2, item3]
+
+  obj: {a : 1, b: 2, c: 3} # Comentário em objeto
+
+  objeto:_interno:
+    chave1: valor1
+    chave2: valor2
