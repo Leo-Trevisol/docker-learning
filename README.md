@@ -1363,6 +1363,126 @@ docker network disconnect flasknetwork mysql_api_container
   <li>O MySQL persiste os registros no banco <code>flaskdocker</code>, disponíveis para consultas futuras.</li>
 </ol>
 
+<h2>📜 O que é YAML?</h2>
+<p>
+  <strong>YAML</strong> (YAML Ain’t Markup Language) é um formato de serialização de dados legível por humanos,
+  muito usado em <strong>arquivos de configuração</strong>, como <code>docker-compose.yml</code>.
+</p>
+<ul>
+  <li>✅ Legível e intuitivo (mais fácil que JSON/XML)</li>
+  <li>✅ Suporte a listas, mapas (objetos), strings, números e booleanos</li>
+  <li>✅ Permite comentários (ao contrário do JSON)</li>
+  <li>✅ Usado em Docker, Kubernetes, CI/CD, Ansible e muito mais</li>
+</ul>
 
+<h2>🔑 Estrutura e Regras Básicas</h2>
+
+<h3>📌 1. Indentação</h3>
+<p>
+  A identação é feita com <strong>espaços</strong> (nunca tabulação).  
+  Cada nível representa hierarquia.
+</p>
+<pre><code>servico:
+  nome: web
+  porta: 8080
+</code></pre>
+
+<h3>💬 2. Comentários</h3>
+<p>Usa-se <code>#</code> para comentar.</p>
+<pre><code># Isto é um comentário
+versao: "3.9"  # comentário inline
+</code></pre>
+
+<h3>📂 3. Tipos de Dados</h3>
+<ul>
+  <li><strong>Strings:</strong> <code>"texto"</code> ou <code>texto</code></li>
+  <li><strong>Números:</strong> <code>idade: 30</code></li>
+  <li><strong>Booleanos:</strong> <code>ativo: true</code></li>
+  <li><strong>Nulos:</strong> <code>null</code> ou <code>~</code></li>
+  <li><strong>Listas:</strong></li>
+</ul>
+<pre><code>frutas:
+  - maçã
+  - banana
+  - uva
+</code></pre>
+
+<h2>🧩 Estruturas em YAML</h2>
+
+<h3>🗂️ Mapas (Objetos)</h3>
+<pre><code>usuario:
+  nome: "Leo"
+  email: "leo@example.com"
+</code></pre>
+
+<h3>📋 Listas de Objetos</h3>
+<pre><code>servicos:
+  - nome: mysql
+    porta: 3306
+  - nome: nginx
+    porta: 80
+</code></pre>
+
+<h3>📝 Strings Multilinha</h3>
+<pre><code>texto_preservado: |
+  Linha 1
+  Linha 2
+  Linha 3
+
+texto_unido: >
+  Linha 1
+  Linha 2
+  Fica em uma única linha
+</code></pre>
+
+<h2>⚓ Recursos Avançados</h2>
+
+<h3>🔗 Âncoras e Referências</h3>
+<p>Permitem <strong>reutilizar configurações</strong> para evitar repetição.</p>
+<pre><code>defaults: &padrao
+  restart: always
+  imagem: nginx:latest
+
+web:
+  <<: *padrao
+  portas:
+    - "8080:80"
+</code></pre>
+
+<h2>🐳 Exemplo no Docker Compose</h2>
+<p>Um exemplo real de uso do YAML em um <code>docker-compose.yml</code>:</p>
+<pre><code>version: "3.9"
+
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: exemplo
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+</code></pre>
+
+<h2>⚠️ Erros Comuns</h2>
+<ul>
+  <li>🚫 Usar <strong>TAB</strong> em vez de espaço → erro de sintaxe</li>
+  <li>🚫 Esquecer espaço depois de <code>-</code> em listas</li>
+  <li>🚫 Strings ambíguas sem aspas (<code>yes/no, on/off</code>) podem virar booleanos</li>
+</ul>
+
+<h2>✅ Boas Práticas</h2>
+<ul>
+  <li>Use sempre 2 espaços por nível de indentação</li>
+  <li>Adicione comentários explicativos</li>
+  <li>Use âncoras para reduzir repetição</li>
+  <li>Valide com <code>docker compose config</code> ou linters</li>
+</ul>
 
 
