@@ -1585,6 +1585,58 @@ volumes:
   </li>
 </ul>
 
+<h3>⚙️ Variáveis de Ambiente no Docker Compose</h3>
+<p>
+O Docker Compose permite definir <strong>variáveis de ambiente</strong> para configurar os serviços sem expor senhas ou dados sensíveis diretamente no <code>docker-compose.yml</code>. 
+Essas variáveis podem ser armazenadas em arquivos <code>.env</code> separados e referenciadas no serviço com a diretiva <code>env_file</code>.
+</p>
+
+<h4>📂 Exemplo de Arquivos</h4>
+<p><strong>Arquivo <code>config/db.env</code></strong>:</p>
+<pre><code>MYSQL_ROOT_PASSWORD=docker
+MYSQL_DATABASE=wordpress
+MYSQL_USER=docker
+MYSQL_PASSWORD=docker
+</code></pre>
+
+<p><strong>Arquivo <code>config/wp.env</code></strong>:</p>
+<pre><code>WORDPRESS_DB_HOST=db:3306
+WORDPRESS_DB_USER=docker
+WORDPRESS_DB_PASSWORD=docker
+WORDPRESS_DB_NAME=wordpress
+</code></pre>
+
+<h4>📜 docker-compose.yml</h4>
+<pre><code>services:
+  db:
+    image: mysql:8.0
+    restart: always
+    env_file:
+      - ./config/db.env
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    env_file:
+      - ./config/wp.env
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+</code></pre>
+
+<h4>✅ Benefícios</h4>
+<ul>
+  <li>Separa credenciais do código → mais seguro</li>
+  <li>Facilita a troca de ambientes (desenvolvimento, teste, produção)</li>
+  <li>Deixa o <code>docker-compose.yml</code> mais limpo</li>
+</ul>
+
 <h3>⚠️ Erros Comuns</h3>
 <ul>
   <li>🚫 Não mapear volumes → você perderá os dados do banco ao remover o container.</li>
