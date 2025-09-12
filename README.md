@@ -1637,6 +1637,49 @@ volumes:
   <li>Deixa o <code>docker-compose.yml</code> mais limpo</li>
 </ul>
 
+<h2>🌐 Redes no Docker Compose</h2>
+<p>
+O Docker Compose permite criar <strong>redes isoladas</strong> para que os containers se comuniquem de forma segura e organizada.
+Cada serviço conectado a uma mesma rede pode acessar os outros usando o <code>nome do serviço</code> como hostname.
+</p>
+
+<h3>🔧 Exemplo com Rede Backend</h3>
+<pre><code>services:
+  db:
+    image: mysql:8.0
+    env_file:
+      - ./config/db.env
+    networks:
+      - backend
+
+  wordpress:
+    image: wordpress:latest
+    env_file:
+      - ./config/wp.env
+    networks:
+      - backend
+    ports:
+      - "8080:80"
+
+networks:
+  backend:
+    driver: bridge
+</code></pre>
+
+<h3>💡 Como Funciona</h3>
+<ul>
+  <li>Ambos os containers estão na mesma rede <code>backend</code></li>
+  <li>O WordPress consegue acessar o MySQL usando o hostname <code>db</code> (nome do serviço)</li>
+  <li>A rede <code>bridge</code> cria uma comunicação interna entre containers, isolada do host</li>
+</ul>
+
+<h3>✅ Benefícios</h3>
+<ul>
+  <li>Isolamento → containers só se comunicam com quem está na mesma rede</li>
+  <li>Facilidade → acesso via hostname (ex: <code>db:3306</code>) sem precisar de IP fixo</li>
+  <li>Flexibilidade → permite múltiplas redes em um mesmo projeto</li>
+</ul>
+
 <h3>⚠️ Erros Comuns</h3>
 <ul>
   <li>🚫 Não mapear volumes → você perderá os dados do banco ao remover o container.</li>
