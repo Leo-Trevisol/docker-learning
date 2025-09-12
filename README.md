@@ -1485,4 +1485,76 @@ services:
   <li>Valide com <code>docker compose config</code> ou linters</li>
 </ul>
 
+<h2>📦 Docker Compose</h2>
+<p>
+  O <strong>Docker Compose</strong> é uma ferramenta que permite <em>definir e gerenciar múltiplos containers</em> como uma única aplicação.  
+  Ele utiliza arquivos no formato <code>docker-compose.yml</code>, escritos em YAML, para descrever os serviços, redes e volumes necessários.  
+  Isso facilita a criação de ambientes completos com apenas um comando.
+</p>
 
+<h3>🛠️ Como Funciona</h3>
+<ul>
+  <li>Você descreve os serviços (containers) no arquivo <code>docker-compose.yml</code>.</li>
+  <li>O Compose cuida de criar os containers, volumes e redes automaticamente.</li>
+  <li>Com um simples <code>docker compose up</code> você sobe toda a aplicação.</li>
+</ul>
+
+<h3>🐳 Exemplo WordPress + MySQL</h3>
+<p>A seguir um exemplo de configuração para rodar o <strong>WordPress</strong> conectado a um banco de dados <strong>MySQL</strong>:</p>
+<pre><code>version: "3.9"
+
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: wordpress_db
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+      WORDPRESS_DB_NAME: wordpress_db
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  db_data:
+</code></pre>
+
+<h3>🚀 Como Rodar</h3>
+<ol>
+  <li>Crie um arquivo chamado <code>docker-compose.yml</code> e cole o conteúdo acima.</li>
+  <li>No terminal, execute:
+    <pre><code>docker compose up -d</code></pre>
+    Isso irá baixar as imagens necessárias e iniciar os containers em segundo plano.
+  </li>
+  <li>Acesse o navegador em <a href="http://localhost:8080">http://localhost:8080</a> e finalize a instalação do WordPress.</li>
+</ol>
+
+<h3>⚠️ Erros Comuns</h3>
+<ul>
+  <li>🚫 Não mapear volumes → você perderá os dados do banco ao remover o container.</li>
+  <li>🚫 Esquecer de configurar <code>depends_on</code> → o WordPress pode tentar conectar no MySQL antes dele iniciar.</li>
+  <li>🚫 Senhas fracas → use variáveis de ambiente seguras em produção.</li>
+</ul>
+
+<h3>✅ Boas Práticas</h3>
+<ul>
+  <li>Use <strong>volumes nomeados</strong> (como <code>db_data</code>) para persistir dados.</li>
+  <li>Sempre utilize <code>restart: always</code> para serviços críticos.</li>
+  <li>Separe ambientes (ex.: <code>docker-compose.override.yml</code> para desenvolvimento).</li>
+  <li>Valide seu arquivo com:
+    <pre><code>docker compose config</code></pre>
+  </li>
+</ul>
