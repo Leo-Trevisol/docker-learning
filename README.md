@@ -1542,6 +1542,49 @@ volumes:
   <li>Acesse o navegador em <a href="http://localhost:8080">http://localhost:8080</a> e finalize a instalação do WordPress.</li>
 </ol>
 
+<h3>💻 Comandos Comuns do Docker Compose</h3>
+<ul>
+  <li>
+    <pre><code>docker compose up</code></pre>
+    Sobe os serviços definidos no <code>docker-compose.yml</code>.  
+    Use a flag <code>-d</code> para rodar em segundo plano (modo <em>detached</em>).
+  </li>
+
+  <li>
+    <pre><code>docker compose down</code></pre>
+    Para e remove todos os containers, redes e volumes criados pelo Compose  
+    (volumes nomeados não são removidos, a menos que use <code>--volumes</code>).
+  </li>
+
+  <li>
+    <pre><code>docker compose stop</code></pre>
+    Para os containers sem removê-los.  
+    Eles podem ser reiniciados depois com <code>docker compose start</code>.
+  </li>
+
+  <li>
+    <pre><code>docker compose ps</code></pre>
+    Lista os serviços em execução e suas portas mapeadas.
+  </li>
+
+  <li>
+    <pre><code>docker compose logs</code></pre>
+    Exibe os logs de todos os serviços.  
+    Use <code>-f</code> para acompanhar em tempo real.
+  </li>
+
+  <li>
+    <pre><code>docker compose exec wordpress bash</code></pre>
+    Executa um comando dentro de um container em execução.  
+    Exemplo: abrir um terminal bash no serviço <code>wordpress</code>.
+  </li>
+
+  <li>
+    <pre><code>docker compose build</code></pre>
+    (Re)constrói as imagens definidas no Compose, útil após mudanças no <code>Dockerfile</code>.
+  </li>
+</ul>
+
 <h3>⚠️ Erros Comuns</h3>
 <ul>
   <li>🚫 Não mapear volumes → você perderá os dados do banco ao remover o container.</li>
