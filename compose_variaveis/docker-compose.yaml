@@ -1,0 +1,25 @@
+services:                 # Define os serviços que compõem a aplicação (containers a serem criados)
+
+  db:                     # Serviço de banco de dados (MySQL)
+    image: mysql:8.0       # Usa a imagem oficial do MySQL na versão 8.0
+    container_name: mysql_db   # Define um nome fixo para o container (facilita nos comandos e logs)
+    restart: always        # Garante que o container reinicie automaticamente em caso de falha
+
+    env_file:
+      - ./config/db.env
+    volumes:              # Monta volumes para persistência de dados do banco
+      - db_data:/var/lib/mysql   # Associa o volume "db_data" ao diretório de dados do MySQL dentro do container
+
+  wordpress:              # Serviço da aplicação WordPress
+    image: wordpress:latest   # Usa a imagem oficial do WordPress na versão mais recente
+    container_name: wordpress_app   # Nome fixo para o container do WordPress
+    restart: always        # Reinicia automaticamente em caso de falha
+    env_file:
+      - ./config/wp.env
+    ports:                 # Mapeamento de portas (host:container)
+      - "8080:80"          # Expõe a porta 80 do container (Apache do WP) na porta 8080 do host
+    depends_on:            # Define dependências entre serviços
+      - db                 # Faz o WordPress esperar o container do MySQL iniciar primeiro
+
+volumes:                   # Define volumes persistentes usados pelos serviços
+  db_data:                 # Volume nomeado "db_data", armazenará os dados do MySQL
