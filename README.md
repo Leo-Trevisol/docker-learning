@@ -1470,14 +1470,14 @@ services:
       - db
 </code></pre>
 
-<h2>⚠️ Erros Comuns</h2>
+<h3>⚠️ Erros Comuns</h2>
 <ul>
   <li>🚫 Usar <strong>TAB</strong> em vez de espaço → erro de sintaxe</li>
   <li>🚫 Esquecer espaço depois de <code>-</code> em listas</li>
   <li>🚫 Strings ambíguas sem aspas (<code>yes/no, on/off</code>) podem virar booleanos</li>
 </ul>
 
-<h2>✅ Boas Práticas</h2>
+<h3>✅ Boas Práticas</h2>
 <ul>
   <li>Use sempre 2 espaços por nível de indentação</li>
   <li>Adicione comentários explicativos</li>
