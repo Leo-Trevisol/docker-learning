@@ -1770,3 +1770,57 @@ networks:
   <li>Facilita CI/CD, pois todo o processo de build e deploy fica no Compose.</li>
 </ul>
 
+<h2>📂 Bind Mount com Docker Compose</h2>
+<p>
+Um <strong>Bind Mount</strong> permite mapear um diretório do sistema operacional host para dentro de um container.
+Assim, qualquer alteração feita nos arquivos locais é refletida imediatamente dentro do container.
+Isso é muito útil em ambiente de <em>desenvolvimento</em>, pois evita rebuilds a cada mudança no código.
+</p>
+
+<h3>🔧 Como Configurar</h3>
+<p>No <code>docker-compose.yml</code>, basta adicionar a diretiva <code>volumes</code> dentro do serviço desejado.</p>
+
+<pre><code>services:
+  backend:
+    build: ./flask/
+    restart: always
+    volumes:
+      - "C:\\Users\\leotr\\Documents\\Workspaces\\docker\\docker-learning\\compose_bind_mount\\flask:/app"
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    networks:
+      - dockercompose
+</code></pre>
+
+<h3>📜 Estrutura</h3>
+<pre><code>compose_bind_mount/
+├── docker-compose.yml
+├── flask/          # Código Python local
+│   └── app.py
+└── mysql/
+    └── Dockerfile
+</code></pre>
+
+<h3>⚡ Funcionamento</h3>
+<ul>
+  <li>A pasta local <code>flask/</code> é montada no diretório <code>/app</code> do container.</li>
+  <li>Se você editar o arquivo <code>app.py</code> no host, a alteração aparece imediatamente dentro do container.</li>
+  <li>Ideal para <strong>hot reload</strong> em frameworks como Flask.</li>
+</ul>
+
+<h3>✅ Benefícios</h3>
+<ul>
+  <li>Agilidade no desenvolvimento (sem rebuilds constantes).</li>
+  <li>Facilidade para debugar e testar rapidamente.</li>
+  <li>Integração direta entre código local e container.</li>
+</ul>
+
+<h3>⚠️ Observações</h3>
+<ul>
+  <li>No Windows, use o caminho completo com aspas duplas (<code>"C:\\Users\\..."</code>).</li>
+  <li>No Linux/Mac, basta usar o caminho normal, ex: <code>./flask:/app</code>.</li>
+  <li>Evite usar bind mounts em produção, prefira <strong>volumes gerenciados</strong> pelo Docker.</li>
+</ul>
+
