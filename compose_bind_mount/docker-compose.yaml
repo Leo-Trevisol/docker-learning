@@ -1,0 +1,30 @@
+version: "3.9"   # Define a versão do Docker Compose usada (3.9 é compatível com Docker mais recente)
+
+services:        # Aqui definimos os serviços (containers) que compõem a aplicação
+  db:            # Serviço do banco de dados MySQL
+    build: ./mysql/    # Cria a imagem a partir do Dockerfile localizado na pasta ./mysql
+    restart: always    # Garante que o container reinicie automaticamente em caso de falha ou reboot
+    env_file:          # Arquivo externo com variáveis de ambiente (credenciais, configs do MySQL)
+      - ./config/db.env 
+    ports:             # Faz o mapeamento de portas (host:container)
+      - "3307:3306"    # Porta 3307 no host -> 3306 dentro do container (porta padrão do MySQL)
+    networks:
+      - dockercompose  # Conecta o serviço à rede "dockercompose"
+
+  backend:        # Serviço do backend em Flask
+    build: ./flask/    # Cria a imagem a partir do Dockerfile localizado na pasta ./flask
+    restart: always    # Container reinicia automaticamente em caso de falha
+    volumes:           # Bind mount (mapeia um diretório do host para dentro do container)
+      - "C:\\Users\\leotr\\Documents\\Workspaces\\docker\\docker-learning\\compose_bind_mount\\flask:/app"
+                       # Tudo que está na pasta local ./flask será refletido dentro do container em /app
+                       # Ideal para desenvolvimento, pois atualizações no código aparecem direto no container
+    depends_on:        # Define dependências: só inicia após o serviço "db" estar disponível
+      - db
+    ports:             # Mapeamento de portas
+      - "5000:5000"    # Porta 5000 no host -> 5000 no container (padrão do Flask)
+    networks:
+      - dockercompose  # Conecta o backend na mesma rede que o banco de dados
+
+networks:         # Configuração das redes Docker
+  dockercompose:  # Nome da rede customizada
+    driver: bridge # Driver "bridge" permite comunicação entre containers na mesma rede
