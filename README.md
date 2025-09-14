@@ -1696,3 +1696,77 @@ networks:
     <pre><code>docker compose config</code></pre>
   </li>
 </ul>
+
+<h2>🏗️ Build de Imagens no Docker Compose</h2>
+<p>
+O <strong>Docker Compose</strong> não serve apenas para orquestrar containers a partir de imagens já existentes, 
+mas também pode <em>construir imagens personalizadas</em> automaticamente usando diretórios com <code>Dockerfile</code>.
+</p>
+
+<h3>🔧 Como Funciona</h3>
+<ul>
+  <li>Dentro do serviço, usamos a diretiva <code>build</code> em vez de <code>image</code>.</li>
+  <li>O caminho definido em <code>build</code> deve conter um <code>Dockerfile</code> válido.</li>
+  <li>Quando rodamos <code>docker compose up --build</code>, o Compose constrói a imagem antes de iniciar o container.</li>
+</ul>
+
+<h3>📂 Estrutura de Exemplo</h3>
+<pre><code>compose_dockerfile_to_compose/
+├── docker-compose.yml
+├── mysql/
+│   └── Dockerfile
+└── flask/
+    ├── app.py
+    └── Dockerfile
+</code></pre>
+
+<h3>📜 docker-compose.yml</h3>
+<pre><code>version: "3.9"
+
+services:
+  db:
+    build: ./mysql/
+    restart: always
+    env_file:
+      - ./config/db.env
+    ports:
+      - "3307:3306"
+    networks:
+      - dockercompose
+
+  backend:
+    build: ./flask/
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    networks:
+      - dockercompose
+
+networks:
+  dockercompose:
+    driver: bridge
+</code></pre>
+
+<h3>🚀 Como Rodar</h3>
+<ol>
+  <li>No terminal, execute:
+    <pre><code>docker compose up --build -d</code></pre>
+    Isso irá construir as imagens <strong>mysqlcompose</strong> e <strong>flaskcompose</strong> a partir dos diretórios especificados.
+  </li>
+  <li>Para reconstruir após mudanças no Dockerfile:
+    <pre><code>docker compose build</code></pre>
+  </li>
+  <li>Para forçar rebuild + iniciar containers:
+    <pre><code>docker compose up --build</code></pre>
+  </li>
+</ol>
+
+<h3>✅ Benefícios</h3>
+<ul>
+  <li>Permite criar imagens customizadas para cada serviço.</li>
+  <li>Elimina a necessidade de rodar <code>docker build</code> manualmente.</li>
+  <li>Facilita CI/CD, pois todo o processo de build e deploy fica no Compose.</li>
+</ul>
+
