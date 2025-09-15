@@ -1,28 +1,42 @@
-<section id="o-que-voce-vai-aprender">
-  <h2>📚 O que irei aprender neste curso</h2>
+<h1 align="center">🐳 Docker - Fundamentos e Prática</h1>
 
-  <h3>Fundamentos do Docker</h3>
-  <ul>
-    <li>O que é Docker e para que serve</li>
-    <li>Instalação e configuração</li>
-    <li>Principais comandos do Docker</li>
-  </ul>
+<p align="center">
+  Repositório com exemplos práticos para aprender e dominar o uso do <strong>Docker</strong>, 
+  desde os fundamentos até gerenciamento de containers, imagens e redes.
+</p>
 
-  <h3>Containers e Imagens</h3>
-  <ul>
-    <li>Criação e execução de containers</li>
-    <li>Criação, atualização e gerenciamento de imagens</li>
-    <li>Copiando arquivos (como imagens) de/para containers usando o comando <code>cp</code></li>
-    <li>Publicação de imagens no Docker Hub</li>
-  </ul>
+<p align="center">
+  <img src="https://img.shields.io/badge/Docker-20.10+-blue?logo=docker" />
+  <img src="https://img.shields.io/badge/Containers-Management-green?logo=docker" />
+  <img src="https://img.shields.io/badge/Images-Build-orange?logo=docker" />
+  <img src="https://img.shields.io/badge/Volumes-Persistence-yellow?logo=docker" />
+  <img src="https://img.shields.io/badge/Networks-Connectivity-lightgrey?logo=docker" />
+</p>
 
-  <h3>Gerenciamento de Recursos</h3>
-  <ul>
-    <li>Volumes e persistência de dados</li>
-    <li>Bind Mount</li>
-    <li>Criação e utilização de networks</li>
-    <li>Conexão externa: host ↔ containers e entre containers</li>
-  </ul>
+<hr/>
+
+<h2>📚 O que você vai aprender aqui?</h2>
+
+<ul>
+  <li><strong>⚙️ Fundamentos do Docker</strong><br/>
+    - O que é Docker e para que serve<br/>
+    - Instalação e configuração<br/>
+    - Principais comandos do Docker
+  </li>
+  <li><strong>📦 Containers e Imagens</strong><br/>
+    - Criação e execução de containers<br/>
+    - Criação, atualização e gerenciamento de imagens<br/>
+    - Copiando arquivos de/para containers com <code>docker cp</code><br/>
+    - Publicação de imagens no Docker Hub
+  </li>
+  <li><strong>🗄️ Gerenciamento de Recursos</strong><br/>
+    - Volumes e persistência de dados<br/>
+    - Bind Mount<br/>
+    - Criação e utilização de networks<br/>
+    - Conexão externa: host ↔ containers e entre containers
+  </li>
+</ul>
+
 
   <h3>Docker Compose</h3>
   <ul>
