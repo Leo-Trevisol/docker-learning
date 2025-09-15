@@ -2,7 +2,7 @@
 
 <p align="center">
   Repositório com exemplos práticos para aprender e dominar o uso do <strong>Docker</strong>, 
-  desde os fundamentos até gerenciamento de containers, imagens e redes.
+  desde os fundamentos até gerenciamento de containers, imagens, redes e orquestração.
 </p>
 
 <p align="center">
@@ -11,71 +11,82 @@
   <img src="https://img.shields.io/badge/Images-Build-orange?logo=docker" />
   <img src="https://img.shields.io/badge/Volumes-Persistence-yellow?logo=docker" />
   <img src="https://img.shields.io/badge/Networks-Connectivity-lightgrey?logo=docker" />
+  <img src="https://img.shields.io/badge/Compose-Stack-blueviolet?logo=docker" />
+  <img src="https://img.shields.io/badge/Kubernetes-Orchestration-blue?logo=kubernetes" />
+  <img src="https://img.shields.io/badge/Swarm-Orchestration-lightgrey?logo=docker" />
+  <img src="https://img.shields.io/badge/YAML-Config-red?logo=yaml" />
+  <img src="https://img.shields.io/badge/Linux-Terminal-black?logo=linux" />
 </p>
 
 <hr/>
 
-<h2>📚 O que você vai aprender aqui?</h2>
+<section id="o-que-voce-vai-aprender">
+  <h2>📚 O que você vai aprender aqui?</h2>
 
-<ul>
-  <li><strong>⚙️ Fundamentos do Docker</strong><br/>
-    - O que é Docker e para que serve<br/>
-    - Instalação e configuração<br/>
-    - Principais comandos do Docker
-  </li>
-  <li><strong>📦 Containers e Imagens</strong><br/>
-    - Criação e execução de containers<br/>
-    - Criação, atualização e gerenciamento de imagens<br/>
-    - Copiando arquivos de/para containers com <code>docker cp</code><br/>
-    - Publicação de imagens no Docker Hub
-  </li>
-  <li><strong>🗄️ Gerenciamento de Recursos</strong><br/>
-    - Volumes e persistência de dados<br/>
-    - Bind Mount<br/>
-    - Criação e utilização de networks<br/>
-    - Conexão externa: host ↔ containers e entre containers
-  </li>
-</ul>
+  <ul>
+    <li><strong>⚙️ Fundamentos do Docker</strong><br/>
+      - O que é Docker e para que serve<br/>
+      - Instalação e configuração<br/>
+      - Principais comandos do Docker
+    </li>
 
+    <li><strong>📦 Containers e Imagens</strong><br/>
+      - Criação e execução de containers<br/>
+      - Criação, atualização e gerenciamento de imagens<br/>
+      - Copiando arquivos de/para containers com <code>docker cp</code><br/>
+      - Publicação de imagens no Docker Hub
+    </li>
 
-  <h3>Docker Compose</h3>
+    <li><strong>🗄️ Gerenciamento de Recursos</strong><br/>
+      - Volumes e persistência de dados<br/>
+      - Bind Mount<br/>
+      - Criação e utilização de networks<br/>
+      - Conexão externa: host ↔ containers e entre containers
+    </li>
+  </ul>
+
+  <h3>🛠️ Docker Compose</h3>
   <ul>
     <li>Gerenciamento de múltiplos containers</li>
     <li>Criação de ambientes completos com Compose</li>
+    <li>Exemplos de arquivos <code>docker-compose.yml</code> e boas práticas</li>
   </ul>
 
-  <h3>Projetos Práticos</h3>
+  <h3>🚀 Projetos Práticos</h3>
   <ul>
     <li>Aplicações em <strong>PHP</strong>, <strong>Python</strong>, <strong>JavaScript</strong> e outras tecnologias</li>
     <li>Estruturação de projetos dockerizados</li>
+    <li>Exemplos step-by-step para dockerizar aplicações reais</li>
   </ul>
 
-  <h3>YAML para Docker e Kubernetes</h3>
+  <h3>📑 YAML para Docker e Kubernetes</h3>
   <ul>
-    <li>Estrutura e sintaxe</li>
-    <li>Modo declarativo e imperativo</li>
+    <li>Estrutura e sintaxe do YAML</li>
+    <li>Modo declarativo vs. imperativo</li>
+    <li>Exemplos de manifests para Compose e Kubernetes</li>
   </ul>
 
-  <h3>Orquestração com Docker Swarm</h3>
+  <h3>🌐 Orquestração com Docker Swarm</h3>
   <ul>
-    <li>Instalação e configuração</li>
+    <li>Instalação e configuração do Swarm</li>
     <li>Criação e atualização de projetos no Swarm</li>
     <li>Replicação de serviços</li>
     <li>Uso de Docker Compose no Swarm</li>
   </ul>
 
-  <h3>Orquestração com Kubernetes</h3>
+  <h3>☸️ Orquestração com Kubernetes</h3>
   <ul>
     <li>Instalação e uso do Minikube</li>
-    <li>Conceitos fundamentais de Kubernetes</li>
+    <li>Conceitos fundamentais de Kubernetes (Pods, Services, Deployments)</li>
     <li>Criação e gerenciamento de projetos</li>
     <li>Escalabilidade e orquestração de containers</li>
   </ul>
 
-  <h3>Linux e Terminal</h3>
+  <h3>💻 Linux e Terminal</h3>
   <ul>
     <li>Essenciais de terminal/Linux</li>
     <li>Aplicação prática no uso do Docker</li>
+    <li>Comandos úteis para debug e administração</li>
   </ul>
 </section>
 
