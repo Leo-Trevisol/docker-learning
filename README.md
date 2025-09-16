@@ -1911,3 +1911,85 @@ Isso inclui desde o <strong>deploy</strong> até o <strong>balanceamento, escalo
   <li><strong>Nomad</strong>: alternativa da HashiCorp, mais minimalista.</li>
 </ul>
 
+<h2>⚙️ Conceitos Fundamentais do Docker Swarm</h2>
+<p>
+Para entender como o <strong>Docker Swarm</strong> funciona, é essencial conhecer seus conceitos básicos.
+Eles definem como os containers são organizados, distribuídos e executados dentro de um cluster.
+</p>
+
+<h3>🌐 Cluster</h3>
+<p>
+Um <strong>Cluster</strong> é o conjunto de máquinas (físicas ou virtuais) que trabalham em conjunto
+para executar aplicações de forma distribuída e tolerante a falhas.  
+No Docker Swarm, um cluster é composto por vários <em>nodes</em>, que podem ser managers ou workers.
+</p>
+
+<h3>🖥️ Nodes</h3>
+<p>
+Um <strong>Node</strong> é uma máquina que faz parte do cluster do Swarm.  
+Cada node roda o Docker Engine e pode ser classificado como <em>manager</em> ou <em>worker</em>.
+</p>
+<ul>
+  <li><strong>Manager Node</strong>: responsável por orquestrar e gerenciar o cluster.</li>
+  <li><strong>Worker Node</strong>: responsável por executar as tarefas (containers) atribuídas pelos managers.</li>
+</ul>
+
+<h3>👑 Manager Nodes</h3>
+<p>
+Os <strong>manager nodes</strong> são os cérebros do cluster.  
+Eles controlam a <em>orquestração</em> e a <em>tomada de decisões</em>, como:
+</p>
+<ul>
+  <li>Agendamento de containers nos workers.</li>
+  <li>Manutenção do estado desejado dos serviços.</li>
+  <li>Replicação e tolerância a falhas.</li>
+</ul>
+<p>
+Um cluster Swarm pode ter múltiplos managers para <strong>alta disponibilidade</strong>, mas apenas um atua como <em>Líder</em> (leader) usando o algoritmo de consenso <strong>Raft</strong>.
+</p>
+
+<h3>⚙️ Worker Nodes</h3>
+<p>
+Os <strong>worker nodes</strong> são os executores.  
+Eles recebem instruções dos managers e rodam efetivamente os containers.  
+Não tomam decisões por conta própria, apenas seguem as ordens enviadas.
+</p>
+<ul>
+  <li>Executam <strong>tasks</strong> (instâncias de containers).</li>
+  <li>Reportam status e métricas de volta para os managers.</li>
+</ul>
+
+<h3>🛠️ Services</h3>
+<p>
+Um <strong>Service</strong> é a definição de uma aplicação distribuída dentro do Swarm.  
+Ele descreve o estado desejado, como:
+</p>
+<ul>
+  <li>Qual imagem Docker deve ser usada.</li>
+  <li>Quantas réplicas de containers devem rodar.</li>
+  <li>Políticas de atualização e escalabilidade.</li>
+</ul>
+<p>
+Na prática, um service é como um "plano" que o Swarm usa para criar e manter containers.
+</p>
+
+<h3>📦 Tasks</h3>
+<p>
+Uma <strong>Task</strong> é a menor unidade de execução no Swarm.  
+Ela representa uma <em>instância de container</em> em execução, associada a um service.
+</p>
+<ul>
+  <li>Cada task roda em um worker node.</li>
+  <li>Se uma task falhar, o manager agenda automaticamente uma nova task em outro node.</li>
+  <li>Um service em modo replicado pode ter várias tasks distribuídas no cluster.</li>
+</ul>
+
+<h3>✅ Resumindo</h3>
+<ul>
+  <li><strong>Cluster</strong>: conjunto de nodes que trabalham juntos no Swarm.</li>
+  <li><strong>Node</strong>: máquina dentro do cluster.</li>
+  <li><strong>Manager Node</strong>: orquestra e gerencia o cluster.</li>
+  <li><strong>Worker Node</strong>: executa containers.</li>
+  <li><strong>Service</strong>: definição da aplicação e estado desejado.</li>
+  <li><strong>Task</strong>: container em execução, unidade prática do service.</li>
+</ul>
