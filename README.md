@@ -1849,3 +1849,65 @@ Isso é muito útil em ambiente de <em>desenvolvimento</em>, pois evita rebuilds
   <li>Evite usar bind mounts em produção, prefira <strong>volumes gerenciados</strong> pelo Docker.</li>
 </ul>
 
+<h2>🌐 Docker Swarm</h2>
+<p>
+O <strong>Docker Swarm</strong> é a ferramenta nativa de <em>orquestração de containers</em> do Docker.
+Ele permite transformar múltiplas máquinas (físicas ou virtuais) em um <strong>cluster</strong>, 
+tratando-as como um único host lógico para execução de serviços.
+</p>
+
+<h3>🔧 Como Funciona</h3>
+<ul>
+  <li>Você inicializa um cluster com <code>docker swarm init</code>.</li>
+  <li>Máquinas adicionais podem ser adicionadas como <strong>managers</strong> (responsáveis por orquestrar) ou <strong>workers</strong> (responsáveis por executar containers).</li>
+  <li>Os serviços são distribuídos automaticamente entre os nós disponíveis.</li>
+  <li>O Swarm garante <strong>alta disponibilidade</strong>, realocando containers caso algum nó falhe.</li>
+</ul>
+
+<h3>✅ Benefícios</h3>
+<ul>
+  <li>Escalabilidade horizontal: é possível aumentar ou reduzir a quantidade de réplicas facilmente.</li>
+  <li>Balanceamento de carga automático entre containers de um mesmo serviço.</li>
+  <li>Segurança: comunicação entre os nós do cluster é criptografada por padrão.</li>
+  <li>Gestão simplificada, pois os comandos continuam sendo via <code>docker service</code> e <code>docker stack</code>.</li>
+</ul>
+
+<h3>⚠️ Observações</h3>
+<ul>
+  <li>O Docker Swarm é mais simples que o Kubernetes, mas também menos completo em termos de ecossistema e recursos avançados.</li>
+  <li>Ideal para quem já usa Docker e precisa de <em>orquestração leve</em>.</li>
+  <li>Indicado para ambientes menores ou médios, mas pode ser usado em produção.</li>
+</ul>
+
+<h2>🤖 Orquestração de Containers</h2>
+<p>
+A <strong>orquestração de containers</strong> é o processo de <em>gerenciar automaticamente</em> 
+o ciclo de vida de múltiplos containers em ambientes distribuídos.
+Isso inclui desde o <strong>deploy</strong> até o <strong>balanceamento, escalonamento e monitoramento</strong>.
+</p>
+
+<h3>🔧 O que Faz a Orquestração</h3>
+<ul>
+  <li><strong>Provisionamento</strong>: cria e inicializa containers em diferentes hosts.</li>
+  <li><strong>Agendamento</strong>: decide em qual nó cada container deve rodar.</li>
+  <li><strong>Escalonamento</strong>: aumenta ou reduz automaticamente a quantidade de réplicas de um serviço.</li>
+  <li><strong>Monitoramento</strong>: acompanha o estado dos containers e reinicia se houver falhas.</li>
+  <li><strong>Rede e comunicação</strong>: cria redes virtuais internas entre os serviços.</li>
+  <li><strong>Balanceamento de carga</strong>: distribui requisições entre containers de forma eficiente.</li>
+</ul>
+
+<h3>✅ Principais Benefícios</h3>
+<ul>
+  <li>Alta disponibilidade e tolerância a falhas.</li>
+  <li>Automatização do deploy e da recuperação de containers.</li>
+  <li>Maior eficiência no uso de recursos de hardware.</li>
+  <li>Possibilidade de rodar aplicações em ambientes de <em>produção escaláveis</em>.</li>
+</ul>
+
+<h3>📦 Ferramentas Populares</h3>
+<ul>
+  <li><strong>Docker Swarm</strong>: orquestrador nativo e simples de configurar.</li>
+  <li><strong>Kubernetes</strong>: orquestrador mais robusto, com grande ecossistema e suporte de mercado.</li>
+  <li><strong>Nomad</strong>: alternativa da HashiCorp, mais minimalista.</li>
+</ul>
+
