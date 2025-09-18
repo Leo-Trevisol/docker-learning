@@ -1,0 +1,58 @@
+# Define a versão do formato do Docker Compose.
+version: "3.8"
+
+services:
+  web:
+    image: nginx:latest
+    deploy:
+      replicas: 3
+    ports:
+      - "8080:80"
+    networks:
+      - minha-rede
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: example
+    deploy:
+      replicas: 1
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
+    driver: bridge
+
+# ==============================================================
+# 📝 Instruções de uso no Docker Swarm
+# ==============================================================
+
+# 1️⃣ Inicializar o Swarm (se ainda não estiver ativo):
+#    docker swarm init
+
+# 2️⃣ Criar a stack a partir deste docker-compose.yml:
+#    docker stack deploy -c docker-compose.yml meuapp
+#    -> "meuapp" será o nome da stack (serviços dentro dela terão nomes tipo meuapp_web, meuapp_db)
+
+# 3️⃣ Verificar serviços rodando:
+#    docker service ls
+#    docker service ps meuapp_web
+#    docker service ps meuapp_db
+
+# 4️⃣ Escalar serviços:
+#    docker service scale meuapp_web=5
+#    -> Swarm automaticamente cria/realoca containers entre nodes disponíveis.
+
+# 5️⃣ Remover a stack:
+#    docker stack rm meuapp
+
+# ==============================================================
+# ℹ️ Relação com Docker Swarm
+# ==============================================================
+
+# - O bloco "deploy" só é usado pelo Swarm, não pelo Compose normal.
+# - Swarm garante que o número de réplicas definido será mantido.
+# - Se algum node cair, o Swarm realoca containers automaticamente.
+# - Você pode ter múltiplos nodes (manager e workers) e o serviço "web" será distribuído entre eles.
+# - O Swarm gerencia balanceamento de carga, alta disponibilidade e atualizações contínuas (rolling updates).
