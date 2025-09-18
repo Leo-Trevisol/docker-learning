@@ -1993,3 +1993,236 @@ Ela representa uma <em>instância de container</em> em execução, associada a u
   <li><strong>Service</strong>: definição da aplicação e estado desejado.</li>
   <li><strong>Task</strong>: container em execução, unidade prática do service.</li>
 </ul>
+
+<h2>🛤️ Maneiras de Executar o Docker Swarm</h2>
+<p>
+O Docker Swarm pode ser executado de diversas formas, dependendo do seu ambiente. 
+Você pode rodá-lo localmente para testes, em nuvens como AWS, ou em labs dedicados como o Docker Labs. 
+Isso permite flexibilidade: desde setups rápidos para desenvolvimento até clusters robustos em produção.
+</p>
+<h3>Opções Principais</h3>
+<ul>
+  <li><strong>Localmente (em múltiplas VMs ou máquinas físicas)</strong>: Use VMs no seu laptop com VirtualBox ou Hyper-V para simular um cluster.</li>
+  <li><strong>Em Nuvem (ex: AWS, GCP, Azure)</strong>: Crie instâncias EC2 na AWS e configure o Swarm nelas para escalabilidade real.</li>
+  <li><strong>Labs Online (ex: Docker Labs, Katacoda)</strong>: Ambientes pré-configurados para aprendizado sem setup manual.</li>
+  <li><strong>Híbrido</strong>: Misture on-premise com nuvem para testes de failover.</li>
+</ul>
+<h3>Exemplo Prático</h3>
+<p>
+Para um setup local simples, crie três VMs (uma manager, duas workers) e siga os passos de inicialização. 
+Isso é ideal para testar orquestração sem custos de nuvem.
+</p>
+
+<h2>☁️ Setup e Inicialização do Swarm na AWS e Docker Labs</h2>
+<p>
+Configurar o Docker Swarm na AWS ou em labs como o Docker Labs é uma ótima forma de praticar em ambientes realistas. 
+Na AWS, usamos instâncias EC2 para simular nodes; no Docker Labs, tudo é pré-pronto. 
+Vamos agrupar aqui o setup inicial, instalação do Docker e inicialização do cluster.
+</p>
+<h3>🔧 Setup na AWS</h3>
+<ol>
+  <li><strong>Criar Instâncias EC2</strong>: Lance 3 instâncias t2.micro (Ubuntu 20.04). Atribua IPs elásticos para acesso remoto.</li>
+  <li><strong>Configurar Security Groups</strong>: Abra portas TCP 22 (SSH), 2377 (Swarm init), 7946 (comunicação nodes) e 4789/UDP (overlay network).</li>
+  <li><strong>Instalar Docker</strong>: Em cada instância, rode <code>sudo apt update &amp;&amp; sudo apt install docker.io -y</code>, inicie o serviço com <code>sudo systemctl start docker</code> e adicione seu usuário ao grupo docker: <code>sudo usermod -aG docker $USER</code>.</li>
+</ol>
+<p>
+Exemplo de comando para instalar Docker em uma instância AWS: 
+<code>curl -fsSL https://get.docker.com -o get-docker.sh &amp;&amp; sh get-docker.sh</code>.
+</p>
+<h3>🔧 Setup no Docker Labs</h3>
+<ol>
+  <li>Acesse <a href="https://labs.play-with-docker.com/">Docker Labs</a> e crie uma sessão com múltiplos nodes (ex: 3 nodes).</li>
+  <li>Docker já está pré-instalado; basta clonar seu repo ou preparar imagens.</li>
+  <li>Use o terminal integrado para comandos Swarm.</li>
+</ol>
+<p>
+Exemplo: No Lab, selecione "Swarm" mode e os nodes aparecem prontos para <code>docker swarm init</code>.
+</p>
+<h3>🚀 Inicializando o Swarm</h3>
+<p>
+No manager node (ex: primeira instância AWS ou node1 no Lab), rode:
+</p>
+<pre><code>docker swarm init --advertise-addr &lt;IP_DO_MANAGER&gt;</code></pre>
+<p>
+Isso gera tokens para workers. Exemplo de saída:
+<code>docker swarm join --token SWMTKN-1-abc123xyz789 192.0.2.1:2377</code>.
+</p>
+<p>
+Verifique com <code>docker info</code> – deve mostrar "Swarm: active".
+</p>
+
+<h2>📊 Gerenciando Nodes: Listando, Adicionando e Removendo</h2>
+<p>
+Gerenciar nodes é crucial para manter o cluster saudável. Vamos cobrir listagem, adição e remoção, 
+incluindo recuperação de tokens e drenagem de nodes.
+</p>
+<h3>📋 Listando Todos os Nodes</h3>
+<p>
+Use <code>docker node ls</code> no manager para ver todos os nodes, seu status (Ready/Shutdown), role (Manager/Worker) e disponibilidade.
+</p>
+<pre><code>$ docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+abc123 *                      manager1            Ready               Active              Leader              20.10.12
+def456                        worker1             Ready               Active                                  20.10.12
+ghi789                        worker2             Ready               Active                                  20.10.12</code></pre>
+<h3>➕ Adicionando Máquinas ao Swarm</h3>
+<ol>
+  <li>No manager, pegue o token worker: <code>docker swarm join-token worker</code>.</li>
+  <li>No novo worker, rode o comando join gerado.</li>
+</ol>
+<p>
+Exemplo para adicionar um worker AWS: SSH na instância e execute o join token.
+</p>
+<h3>🔑 Recuperando o Token do Manager</h3>
+<p>
+Para adicionar outro manager: <code>docker swarm join-token manager</code>. 
+Isso gera um token seguro para promoção de workers a managers, garantindo consenso Raft.
+</p>
+<h3>🚫 Deixando o Swarm em um Node</h3>
+<p>
+Em um worker: <code>docker swarm leave</code>. Para forçar em manager: <code>docker swarm leave --force</code>.
+</p>
+<h3>🗑️ Removendo um Node</h3>
+<ol>
+  <li>Drenar tasks: <code>docker node update --availability drain &lt;NODE_ID&gt;</code> (para não receber novas tasks).</li>
+  <li>Remover: <code>docker node rm &lt;NODE_ID&gt;</code>.</li>
+</ol>
+<p>
+Exemplo: <code>docker node update --availability drain def456</code> seguido de <code>docker node rm def456</code>.
+</p>
+<h3>⏹️ Parando de Receber Tasks em um Node</h3>
+<p>
+Use <code>docker node update --availability drain &lt;NODE_ID&gt;</code> para pausar agendamento de novas tasks, 
+permitindo drenar gradualmente. Reative com <code>--availability active</code>.
+</p>
+
+<h2>🛠️ Deploy e Gerenciamento de Serviços</h2>
+<p>
+Deployar serviços é o coração do Swarm. Vamos ver como subir, verificar, remover, replicar, inspecionar e escalar.
+</p>
+<h3>🚀 Subindo um Serviço no Swarm</h3>
+<p>
+Crie um serviço com <code>docker service create</code>. Exemplo: Deployar um Nginx com 3 réplicas:
+</p>
+<pre><code>docker service create --name web-nginx --replicas 3 -p 80:80 nginx:latest</code></pre>
+<p>
+Isso roda 3 containers Nginx, balanceados na porta 80 do cluster.
+</p>
+<h3>🔍 Verificando Serviços Rodando no Swarm</h3>
+<p>
+<code>docker service ls</code> lista serviços, réplicas e status.
+</p>
+<pre><code>$ docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+abc123              web-nginx           replicated          3/3                 nginx:latest        *:80->80/tcp</code></pre>
+<h3>🗑️ Removendo Serviços</h3>
+<p>
+<code>docker service rm &lt;SERVICE_NAME&gt;</code>. Exemplo: <code>docker service rm web-nginx</code>. 
+Isso para todas as tasks e remove o serviço.
+</p>
+<h3>🔄 Replicando Serviços</h3>
+<p>
+Especifique <code>--replicas N</code> no create ou atualize com <code>docker service scale web-nginx=5</code>.
+</p>
+<pre><code>docker service update --replicas 5 web-nginx</code></pre>
+<p>
+O Swarm distribui as novas réplicas nos nodes disponíveis.
+</p>
+<h3>📊 Testando a Orquestração do Swarm</h3>
+<p>
+Acesse via IP do manager (porta 80). Para testar failover: Pare um worker com <code>docker node update --availability drain worker1</code> 
+e veja o Swarm realocar tasks automaticamente. Monitore com <code>docker service ps web-nginx</code>.
+</p>
+<h3>🔎 Inspecionando Serviços</h3>
+<p>
+<code>docker service inspect &lt;SERVICE&gt;</code> mostra detalhes como tasks, rede e updates. 
+Exemplo: <code>docker service inspect web-nginx --pretty</code> exibe em formato legível.
+</p>
+<h3>🐳 Verificando Quais Containers Estão Rodando</h3>
+<p>
+  <code>docker ps</code> em um node mostra tasks locais. 
+  Para global: <code>docker service ps &lt;SERVICE&gt;</code>.
+</p>
+<pre><code>$ docker service ps web-nginx
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE
+</code></pre>
+
+<h2>📈 Escalando e Atualizando Aplicações</h2>
+<p>
+  Escalar e atualizar são chave para produção. Inclui Compose no Swarm e updates de imagem.
+</p>
+
+<h3>📝 Compose no Swarm</h3>
+<p>
+  Docker Compose funciona no Swarm com <code>docker stack deploy</code>. 
+  Crie um <code>docker-compose.yml</code>:
+</p>
+<pre><code>version: '3.8'
+services:
+  web:
+    image: nginx
+    deploy:
+      replicas: 3
+    ports:
+      - "80:80"
+</code></pre>
+<p>
+  Deploy: <code>docker stack deploy -c docker-compose.yml myapp</code>. 
+  Liste stacks com <code>docker stack ls</code>.
+</p>
+
+<h3>📊 Escalando Nossa Aplicação</h3>
+<p>
+  Atualize réplicas no Compose: <code>docker service scale myapp_web=5</code>. 
+  O Swarm ajusta automaticamente, balanceando carga.
+</p>
+
+<h3>🔄 Atualizando uma Imagem no Swarm</h3>
+<ol>
+  <li>Atualize o service: <code>docker service update --image nginx:1.21 web-nginx</code>.</li>
+  <li>O Swarm rola updates gradualmente (rolling update) para zero downtime.</li>
+</ol>
+<p>
+  Exemplo com política: 
+  <code>docker service update --update-parallelism 1 --update-delay 10s web-nginx</code> 
+  atualiza 1 task a cada 10s.
+</p>
+
+<h2>🌐 Redes e Conectividade no Swarm</h2>
+<p>
+  Redes overlay permitem comunicação segura entre serviços em nodes diferentes.
+</p>
+
+<h3>🔗 Criando Redes para Serviços do Swarm</h3>
+<p>
+  Crie uma rede overlay: 
+  <code>docker network create --driver overlay minha-rede</code>.
+</p>
+<p>
+  No service: 
+  <code>docker service create --name app --network minha-rede alpine ping google.com</code>.
+</p>
+
+<h3>🔌 Conectando Serviço a uma Rede Já Existente</h3>
+<p>
+  Atualize: <code>docker service update --network-add minha-rede web-nginx</code>.
+</p>
+<p>
+  Exemplo: Conecte dois serviços (web e db) na mesma rede para comunicação interna via nomes de serviço 
+  (ex: web acessa db via "db:5432").
+</p>
+
+<h2>📚 Mais Informações e Conclusão</h2>
+<p>
+  Para aprofundar, consulte a 
+  <a href="https://docs.docker.com/engine/swarm/" target="_blank">
+    documentação oficial do Docker Swarm
+  </a>. 
+  Ela cobre tópicos avançados como secrets, configs e integração com CI/CD.
+</p>
+
+<h3>🎯 Conclusão da Seção</h3>
+<p>
+  O Docker Swarm transforma Docker em uma solução de orquestração poderosa e acessível. 
+  Com conceitos como services, tasks e nodes, você pode deployar apps escaláveis com alta disponibilidade. 
+</p>
