@@ -2212,7 +2212,7 @@ services:
   (ex: web acessa db via "db:5432").
 </p>
 
-<h2>📚 Mais Informações e Conclusão</h2>
+<h2>📚 Conclusão Swarm</h2>
 <p>
   Para aprofundar, consulte a 
   <a href="https://docs.docker.com/engine/swarm/" target="_blank">
@@ -2220,9 +2220,93 @@ services:
   </a>. 
   Ela cobre tópicos avançados como secrets, configs e integração com CI/CD.
 </p>
-
-<h3>🎯 Conclusão da Seção</h3>
 <p>
   O Docker Swarm transforma Docker em uma solução de orquestração poderosa e acessível. 
   Com conceitos como services, tasks e nodes, você pode deployar apps escaláveis com alta disponibilidade. 
 </p>
+<hr/>
+
+<h2>☸️ 1. O que é Kubernetes?</h2>
+<p>
+  O <strong>Kubernetes</strong> (ou <em>K8s</em>) é uma plataforma open-source criada pela Google 
+  para <strong>orquestração de containers</strong>. 
+  Ele automatiza processos como <em>deploy</em>, <em>escalonamento</em>, <em>disponibilidade</em> 
+  e <em>gerenciamento</em> de aplicações em containers, tornando mais fácil rodar aplicações distribuídas e de alta escala.
+</p>
+<p>
+  Em vez de gerenciar manualmente cada container (como fazemos no Docker puro), o Kubernetes cuida da 
+  <strong>infraestrutura de execução</strong>, garantindo que sua aplicação esteja sempre rodando como esperado,
+  mesmo em caso de falhas em servidores ou containers individuais.
+</p>
+
+<hr/>
+
+<h2>📚 2. Principais Conceitos do Kubernetes</h2>
+
+<h3>🧠 Control Plane</h3>
+<p>
+  É o "cérebro" do Kubernetes, responsável por decidir onde e como os containers vão rodar.  
+  Ele controla o estado desejado do cluster, garantindo que os recursos sejam aplicados corretamente.
+</p>
+
+<h3>🖥️ Nodes</h3>
+<p>
+  São as máquinas (físicas ou virtuais) que compõem o cluster.  
+  Cada node roda um agente chamado <code>kubelet</code>, responsável por gerenciar os pods nesse node.
+</p>
+
+<h3>📦 Pods</h3>
+<p>
+  São as <strong>menores unidades do Kubernetes</strong>.  
+  Um Pod pode conter um ou mais containers que compartilham recursos (rede, armazenamento, etc).  
+  Normalmente, cada pod executa uma parte específica da aplicação.
+</p>
+
+<h3>🚀 Deployments</h3>
+<p>
+  Um <code>Deployment</code> define <strong>como e quantos pods</strong> da sua aplicação devem ser executados.  
+  Ele também cuida de <em>updates</em> e <em>rollbacks</em>, garantindo atualizações sem downtime.
+</p>
+
+<h3>🌐 Services</h3>
+<p>
+  São a forma de expor os Pods para comunicação interna ou externa.  
+  Como os Pods são efêmeros (podem morrer e renascer), o Service atua como um <strong>ponto estável</strong> de acesso.
+</p>
+
+<h3>💻 kubectl</h3>
+<p>
+  É a <strong>CLI (Command Line Interface)</strong> usada para interagir com o cluster Kubernetes.  
+  Comandos como <code>kubectl get pods</code> ou <code>kubectl apply -f deployment.yaml</code> 
+  permitem gerenciar todos os recursos do cluster.
+</p>
+
+<h3>🗂️ Namespaces</h3>
+<p>
+  São divisões lógicas dentro do cluster.  
+  Eles permitem organizar e isolar recursos entre diferentes equipes, ambientes (dev, test, prod) ou aplicações.
+</p>
+
+<h3>📦 ConfigMaps e Secrets</h3>
+<p>
+  Recursos usados para <strong>gerenciar configurações e credenciais</strong> das aplicações no cluster.  
+  <code>ConfigMaps</code> armazenam dados de configuração, enquanto <code>Secrets</code> guardam informações sensíveis (ex: senhas, tokens).
+</p>
+
+<h3>📊 ReplicaSets</h3>
+<p>
+  Garante que um número específico de réplicas de Pods esteja sempre em execução.  
+  É usado por trás dos Deployments para manter a alta disponibilidade.
+</p>
+
+<h3>✅ Resumindo</h3>
+<ul>
+  <li><strong>Control Plane</strong>: componente central que gerencia o cluster.</li>
+  <li><strong>Node</strong>: máquina (física ou VM) que executa pods.</li>
+  <li><strong>Pod</strong>: menor unidade do Kubernetes, encapsula um ou mais containers.</li>
+  <li><strong>Deployment</strong>: controla a criação, atualização e replicação de pods.</li>
+  <li><strong>Service</strong>: expõe pods de forma estável via rede (ClusterIP, NodePort, LoadBalancer).</li>
+  <li><strong>Namespace</strong>: organiza e isola recursos dentro do cluster.</li>
+  <li><strong>kubectl</strong>: ferramenta de linha de comando para interagir com o cluster.</li>
+</ul>
+
