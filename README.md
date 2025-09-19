@@ -2212,7 +2212,7 @@ services:
   (ex: web acessa db via "db:5432").
 </p>
 
-<h2>📚 Conclusão Swarm</h2>
+<h3>📚 Conclusão Swarm</h2>
 <p>
   Para aprofundar, consulte a 
   <a href="https://docs.docker.com/engine/swarm/" target="_blank">
