@@ -2310,3 +2310,64 @@ services:
   <li><strong>kubectl</strong>: ferramenta de linha de comando para interagir com o cluster.</li>
 </ul>
 
+<h2>⚙️ Dependências Necessárias para Rodar Kubernetes</h2>
+
+<p>
+  Para começar a trabalhar com Kubernetes em ambiente local ou de testes, você precisa instalar algumas ferramentas essenciais:
+</p>
+
+<h3>🔑 Principais Dependências</h3>
+<ul>
+  <li><strong>kubectl</strong>: CLI oficial para interagir com clusters Kubernetes (criar, gerenciar e inspecionar recursos).</li>
+  <li><strong>Minikube</strong>: ferramenta que cria um cluster Kubernetes local em sua máquina (ideal para estudos e testes).</li>
+  <li><strong>Virtualização</strong>: necessária para rodar Minikube (pode usar Hyper-V, VirtualBox, Docker Driver ou KVM, dependendo do sistema).</li>
+</ul>
+
+<h3>💻 Instalação no Windows</h3>
+<ol>
+  <li>Instale um driver de virtualização:
+    <ul>
+      <li><strong>Hyper-V</strong> (Windows Pro/Enterprise)</li>
+      <li><strong>Docker Desktop</strong> (pode ser usado como driver)</li>
+    </ul>
+  </li>
+  <li>Instale o <code>kubectl</code>:
+    <pre><code>choco install kubernetes-cli</code></pre>
+    (usando <a href="https://chocolatey.org/" target="_blank">Chocolatey</a>)
+  </li>
+  <li>Instale o <code>minikube</code>:
+    <pre><code>choco install minikube</code></pre>
+  </li>
+  <li>Verifique:
+    <pre><code>kubectl version --client
+minikube version</code></pre>
+  </li>
+</ol>
+
+<h3>🐧 Instalação no Linux</h3>
+<ol>
+  <li>Instale o <code>kubectl</code>:
+    <pre><code>curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/</code></pre>
+  </li>
+  <li>Instale o <code>minikube</code>:
+    <pre><code>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube</code></pre>
+  </li>
+  <li>Verifique:
+    <pre><code>kubectl version --client
+minikube version</code></pre>
+  </li>
+</ol>
+
+<h3>🚀 Iniciando o Cluster</h3>
+<p>
+  Após instalar, basta iniciar o cluster local com:
+</p>
+<pre><code>minikube start</code></pre>
+<p>
+  Isso cria um cluster Kubernetes de nó único em sua máquina, pronto para rodar seus <em>pods</em>, <em>services</em> e <em>deployments</em>.
+</p>
+
+
