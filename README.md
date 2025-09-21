@@ -2370,4 +2370,26 @@ minikube version</code></pre>
   Isso cria um cluster Kubernetes de nó único em sua máquina, pronto para rodar seus <em>pods</em>, <em>services</em> e <em>deployments</em>.
 </p>
 
+<h3>🛠️ Comandos Essenciais do Minikube</h3>
+<ul>
+  <li><strong>Iniciar o cluster com driver Docker:</strong>
+    <pre><code>minikube start --driver=docker</code></pre>
+  </li>
+  <li><strong>Parar o cluster:</strong>
+    <pre><code>minikube stop</code></pre>
+  </li>
+  <li><strong>Deletar o cluster:</strong>
+    <pre><code>minikube delete</code></pre>
+  </li>
+  <li><strong>Acessar o painel gráfico (dashboard):</strong>
+    <pre><code>minikube dashboard</code></pre>
+  </li>
+  <li><strong>Ver status do cluster:</strong>
+    <pre><code>minikube status</code></pre>
+  </li>
+  <li><strong>Listar IP do cluster:</strong>
+    <pre><code>minikube ip</code></pre>
+  </li>
+</ul>
+
 
