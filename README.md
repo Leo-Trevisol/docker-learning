@@ -2476,3 +2476,50 @@ minikube version</code></pre>
   <li>Verificar o Service e IP externo (se LoadBalancer): <code>kubectl get services</code></li>
   <li>Acessar a aplicação via navegador ou curl usando o IP/porta fornecidos</li>
 </ol>
+
+<h2>🛠️ Comandos Essenciais para Deployments e Services</h2>
+
+<h3>📦 Deployments</h3>
+<ul>
+  <li><strong>Criar um Deployment:</strong>
+    <pre><code>kubectl create deployment meu-app --image=nginx</code></pre>
+  </li>
+  <li><strong>Listar Deployments:</strong>
+    <pre><code>kubectl get deployments</code></pre>
+  </li>
+  <li><strong>Escalar um Deployment (alterar réplicas):</strong>
+    <pre><code>kubectl scale deployment meu-app --replicas=3</code></pre>
+  </li>
+  <li><strong>Atualizar a imagem de um Deployment:</strong>
+    <pre><code>kubectl set image deployment/meu-app meu-app=nginx:latest</code></pre>
+  </li>
+  <li><strong>Deletar um Deployment:</strong>
+    <pre><code>kubectl delete deployment meu-app</code></pre>
+  </li>
+  <li><strong>Ver detalhes de um Deployment:</strong>
+    <pre><code>kubectl describe deployment meu-app</code></pre>
+  </li>
+</ul>
+
+<h3>🌐 Services</h3>
+<ul>
+  <li><strong>Expor Deployment como Service ClusterIP (interna):</strong>
+    <pre><code>kubectl expose deployment meu-app --type=ClusterIP --port=80</code></pre>
+  </li>
+  <li><strong>Expor Deployment como Service NodePort (externa em porta alta):</strong>
+    <pre><code>kubectl expose deployment meu-app --type=NodePort --port=80</code></pre>
+  </li>
+  <li><strong>Expor Deployment como Service LoadBalancer (externa em IP externo):</strong>
+    <pre><code>kubectl expose deployment meu-app --type=LoadBalancer --port=80</code></pre>
+  </li>
+  <li><strong>Listar Services:</strong>
+    <pre><code>kubectl get services</code></pre>
+  </li>
+  <li><strong>Ver detalhes de um Service:</strong>
+    <pre><code>kubectl describe service meu-app</code></pre>
+  </li>
+  <li><strong>Deletar um Service:</strong>
+    <pre><code>kubectl delete service meu-app</code></pre>
+  </li>
+</ul>
+
