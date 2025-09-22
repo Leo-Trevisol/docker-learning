@@ -2392,4 +2392,45 @@ minikube version</code></pre>
   </li>
 </ul>
 
+<h3>📌 Comandos Essenciais do kubectl</h3>
+<ul>
+  <li><strong>Listar todos os nodes do cluster:</strong>
+    <pre><code>kubectl get nodes</code></pre>
+  </li>
+  <li><strong>Listar todos os pods:</strong>
+    <pre><code>kubectl get pods</code></pre>
+  </li>
+  <li><strong>Listar pods com mais detalhes:</strong>
+    <pre><code>kubectl get pods -o wide</code></pre>
+  </li>
+  <li><strong>Descrever um pod específico:</strong>
+    <pre><code>kubectl describe pod &lt;nome-do-pod&gt;</code></pre>
+  </li>
+  <li><strong>Ver logs de um pod:</strong>
+    <pre><code>kubectl logs &lt;nome-do-pod&gt;</code></pre>
+  </li>
+  <li><strong>Acessar o terminal de um pod:</strong>
+    <pre><code>kubectl exec -it &lt;nome-do-pod&gt; -- /bin/bash</code></pre>
+  </li>
+  <li><strong>Criar um deployment:</strong>
+    <pre><code>kubectl create deployment meu-app --image=nginx</code></pre>
+  </li>
+  <li><strong>Escalar réplicas de um deployment:</strong>
+    <pre><code>kubectl scale deployment meu-app --replicas=3</code></pre>
+  </li>
+  <li><strong>Deletar um deployment:</strong>
+    <pre><code>kubectl delete deployment meu-app</code></pre>
+  </li>
+    <li><strong>Exibir configuração completa:</strong>
+    <pre><code>kubectl config view</code></pre>
+  </li>
+  <li><strong>Ver contexto atual:</strong>
+    <pre><code>kubectl config current-context</code></pre>
+  </li>
+  <li><strong>Listar todos os contextos configurados:</strong>
+    <pre><code>kubectl config get-contexts</code></pre>
+  </li>
+</ul>
+
+
 
