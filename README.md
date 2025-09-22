@@ -2392,7 +2392,7 @@ minikube version</code></pre>
   </li>
 </ul>
 
-<h3>📌 Comandos Essenciais do kubectl</h3>
+<h3>🛠️ Comandos Essenciais do kubectl</h3>
 <ul>
   <li><strong>Listar todos os nodes do cluster:</strong>
     <pre><code>kubectl get nodes</code></pre>
@@ -2432,5 +2432,47 @@ minikube version</code></pre>
   </li>
 </ul>
 
+<h2>⚙️ 3. Deployments e Services no Kubernetes</h2>
 
+<h3>🚀 Deployments</h3>
+<p>
+  Um <strong>Deployment</strong> define como a aplicação deve ser executada no cluster, incluindo:
+</p>
+<ul>
+  <li>Qual imagem de container usar</li>
+  <li>Quantas réplicas de pods devem existir</li>
+  <li>Como atualizar a aplicação sem downtime</li>
+</ul>
+<p>
+  Ele garante que o estado desejado seja mantido: se algum pod falhar, o Deployment cria outro automaticamente.
+</p>
+<p><strong>Exemplo prático:</strong></p>
+<pre><code>kubectl create deployment flask-deployment --image=leonardotrevisol/flask-kub-project</code></pre>
+<p>
+  Esse comando cria um Deployment chamado <code>flask-deployment</code> que executa um pod com a imagem especificada.
+</p>
 
+<h3>🌐 Services</h3>
+<p>
+  Os <strong>Services</strong> permitem expor os pods para comunicação interna ou externa.  
+  Como os pods são efêmeros, o Service fornece um ponto de acesso estável, podendo ser:
+</p>
+<ul>
+  <li><strong>ClusterIP</strong>: acesso interno dentro do cluster</li>
+  <li><strong>NodePort</strong>: expõe a aplicação em uma porta do node</li>
+  <li><strong>LoadBalancer</strong>: cria um IP externo para acesso público (quando disponível)</li>
+</ul>
+<p><strong>Exemplo prático:</strong></p>
+<pre><code>kubectl expose deployment flask-deployment --type=LoadBalancer --port=5000</code></pre>
+<p>
+  Esse comando cria um Service do tipo <code>LoadBalancer</code> que expõe a aplicação na porta 5000, permitindo que seja acessada externamente.
+</p>
+
+<h3>💡 Fluxo Prático</h3>
+<ol>
+  <li>Criar o Deployment com a imagem do container: <code>kubectl create deployment</code></li>
+  <li>Verificar os pods criados: <code>kubectl get pods</code></li>
+  <li>Criar um Service para expor os pods: <code>kubectl expose deployment</code></li>
+  <li>Verificar o Service e IP externo (se LoadBalancer): <code>kubectl get services</code></li>
+  <li>Acessar a aplicação via navegador ou curl usando o IP/porta fornecidos</li>
+</ol>
