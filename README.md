@@ -23,7 +23,7 @@
 <section id="o-que-voce-vai-aprender">
   <h2>📚 O que você vai aprender aqui?</h2>
 
-  <h3>⚙️ Fundamentos do Docker/h3>
+  <h3>⚙️ Fundamentos do Docker </h3>
    <ul>
     <li>Containers e Imagens</li>
     <li>Criação e execução de containers</li>
