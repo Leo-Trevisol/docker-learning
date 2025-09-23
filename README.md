@@ -2523,3 +2523,78 @@ minikube version</code></pre>
   </li>
 </ul>
 
+<h2>🚀 Escalando a Aplicação</h3>
+  <ul>
+    <li><strong>Aumentar ou reduzir réplicas:</strong> Ajuste o número de pods de um <em>Deployment</em> para suportar picos de tráfego ou economizar recursos.
+      <pre><code>kubectl scale deployment flask-deployment --replicas=5</code></pre>
+    </li>
+    <li><strong>Verificar réplicas:</strong> Liste os pods em execução para confirmar o escalonamento.
+      <pre><code>kubectl get pods -o wide</code></pre>
+      <p class="note"><strong>Dica:</strong> Use <code>-o wide</code> para ver detalhes como o nó onde o pod está rodando.</p>
+    </li>
+    <li><strong>Reduzir réplicas:</strong> Diminua o número de pods ativos.
+      <pre><code>kubectl scale deployment flask-deployment --replicas=2</code></pre>
+    </li>
+  </ul>
+
+  <h3>🔄 Atualizando e Revertendo Deployments</h3>
+  <ul>
+    <li><strong>Atualizar imagem do container:</strong> Atualize para uma nova versão da imagem sem recriar o <em>Deployment</em>.
+      <pre><code>kubectl set image deployment/flask-deployment flask-container=leonardotrevisol/flask-kub-project:v2</code></pre>
+    </li>
+    <li><strong>Reverter atualização:</strong> Volte à versão anterior em caso de problemas.
+      <pre><code>kubectl rollout undo deployment/flask-deployment</code></pre>
+      <p class="note"><strong>Nota:</strong> Veja o histórico de revisões com <code>kubectl rollout history deployment/flask-deployment</code>.</p>
+    </li>
+  </ul>
+
+  <h3>📜 Modo Declarativo: Gerenciando com YAML</h3>
+  <ul>
+    <li><strong>Aplicar configuração YAML:</strong> Defina o estado desejado do cluster em um arquivo YAML e aplique com <code>kubectl apply</code>.
+      <pre><code>kubectl apply -f deployment.yaml</code></pre>
+      <p class="note"><strong>Vantagem:</strong> Ideal para versionamento em repositórios Git e automação em pipelines CI/CD.</p>
+    </li>
+  </ul>
+  <div class="example-box">
+    <strong>Exemplo de YAML para um Deployment:</strong>
+    <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels:
+    app: flask
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask-container
+        image: leonardotrevisol/flask-kub-project:v1
+        ports:
+        - containerPort: 5000
+</code></pre>
+  </div>
+
+  <h3>🔑 Principais Campos em Arquivos YAML</h3>
+  <ul>
+    <li><strong>apiVersion:</strong> Versão da API do Kubernetes (ex.: <code>apps/v1</code>).</li>
+    <li><strong>kind:</strong> Tipo de recurso (ex.: <code>Deployment</code>, <code>Service</code>, <code>Pod</code>).</li>
+    <li><strong>metadata:</strong> Informações como nome, namespace e labels.</li>
+    <li><strong>spec:</strong> Configuração desejada (réplicas, imagem, portas, etc.).</li>
+    <li><strong>status:</strong> Estado atual do recurso (gerado pelo Kubernetes).</li>
+  </ul>
+
+  <h3>💡 Dicas Práticas</h3>
+  <ul>
+    <li>Use <code>kubectl describe deployment flask-deployment</code> para detalhes do estado de um <em>Deployment</em>.</li>
+    <li>Monitore eventos do cluster com <code>kubectl get events</code> para diagnosticar problemas.</li>
+    <li>Para automação, combine o modo declarativo com ferramentas como Helm ou Kustomize.</li>
+  </ul>
+
+
