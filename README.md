@@ -2581,6 +2581,37 @@ spec:
 </code></pre>
   </div>
 
+  <h3>♻️ Atualizando o Projeto</h3>
+<p>Para atualizar sua aplicação no Kubernetes, você precisa criar uma nova versão da imagem Docker, enviar para o Docker Hub, atualizar a tag no arquivo YAML do Deployment e aplicar a alteração no cluster.</p>
+
+<ul>
+  <li><strong>1. Construir nova imagem com nova tag:</strong><br/>
+    <code>docker build -t leonardotrevisol/flask-kub-project:v2 .</code>
+  </li>
+
+  <li><strong>2. Enviar imagem para o Docker Hub:</strong><br/>
+    <code>docker push leonardotrevisol/flask-kub-project:v2</code>
+  </li>
+
+  <li><strong>3. Atualizar a tag da imagem no Deployment YAML:</strong><br/>
+    No arquivo <code>deployment.yaml</code>, altere a linha do container para usar a nova tag:<br/>
+    <code>image: leonardotrevisol/flask-kub-project:v2</code>
+  </li>
+
+  <li><strong>4. Aplicar a atualização no cluster:</strong><br/>
+    <code>kubectl apply -f deployment.yaml</code>
+  </li>
+
+  <li><strong>5. Verificar se os pods foram atualizados:</strong><br/>
+    <code>kubectl get pods</code><br/>
+    <code>kubectl rollout status deployment flask-deployment</code>
+  </li>
+
+  <li><strong>6. Reverter caso algo dê errado:</strong><br/>
+    <code>kubectl rollout undo deployment flask-deployment</code>
+  </li>
+</ul>
+
   <h3>🔑 Principais Campos em Arquivos YAML</h3>
   <ul>
     <li><strong>apiVersion:</strong> Versão da API do Kubernetes (ex.: <code>apps/v1</code>).</li>
