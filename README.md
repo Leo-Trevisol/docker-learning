@@ -23,26 +23,13 @@
 <section id="o-que-voce-vai-aprender">
   <h2>📚 O que você vai aprender aqui?</h2>
 
-  <ul>
-    <li><strong>⚙️ Fundamentos do Docker</strong><br/>
-      - O que é Docker e para que serve<br/>
-      - Instalação e configuração<br/>
-      - Principais comandos do Docker
-    </li>
-
-    <li><strong>📦 Containers e Imagens</strong><br/>
-      - Criação e execução de containers<br/>
-      - Criação, atualização e gerenciamento de imagens<br/>
-      - Copiando arquivos de/para containers com <code>docker cp</code><br/>
-      - Publicação de imagens no Docker Hub
-    </li>
-
-    <li><strong>🗄️ Gerenciamento de Recursos</strong><br/>
-      - Volumes e persistência de dados<br/>
-      - Bind Mount<br/>
-      - Criação e utilização de networks<br/>
-      - Conexão externa: host ↔ containers e entre containers
-    </li>
+  <h3>⚙️ Fundamentos do Docker/h3>
+   <ul>
+    <li>Containers e Imagens</li>
+    <li>Criação e execução de containers</li>
+    <li>Criação, atualização e gerenciamento de imagens</li>
+    <li>Copiando arquivos de/para containers com <code>docker cp</code></li>
+    <li>Publicação de imagens no Docker Hub</li>
   </ul>
 
   <h3>🛠️ Docker Compose</h3>
