@@ -2628,4 +2628,11 @@ spec:
     <li>Para automação, combine o modo declarativo com ferramentas como Helm ou Kustomize.</li>
   </ul>
 
+<h2>📌 Conclusão ✅</h2>
+
+<p>
+Este repositório reúne um guia completo para dominar o Docker, abrangendo desde os fundamentos até tópicos avançados como orquestração com Docker Swarm e Kubernetes. 
+Ao longo do curso, você aprendeu a criar e gerenciar containers, imagens, volumes, redes e stacks completas com Docker Compose, além de explorar automação e escalabilidade em ambientes distribuídos. 
+Com exemplos práticos e boas práticas, como uso de YAML, bind mounts e gerenciamento de recursos, você está preparado para aplicar o Docker em projetos reais, desde desenvolvimento local até deploy em produção, garantindo portabilidade, eficiência e consistência em seus ambientes. 🚀
+</p>
 
