@@ -1,0 +1,35 @@
+apiVersion: apps/v1              # Define a versão da API Kubernetes usada para este recurso (apps/v1 é a mais usada para Deployments)
+kind: Deployment                 # Tipo do objeto que estamos criando (Deployment, responsável por gerenciar réplicas de Pods)
+metadata:                        # Metadados do recurso (informações de identificação)
+  name: flask-app-deployment     # Nome do Deployment (usado para referência no cluster)
+spec:                            # Especificação do Deployment (define o comportamento desejado)
+  replicas: 4                    # Número de réplicas (pods) que devem estar rodando simultaneamente
+  selector:                      # Define como o Deployment identifica os Pods que ele gerencia
+    matchLabels:                 # Critério de seleção baseado em labels
+      app: flask-app             # Seleciona todos os Pods que tenham a label "app: flask-app"
+  template:                      # Modelo usado para criar os Pods
+    metadata:                    # Metadados do Pod que será criado
+      labels:                    # Labels aplicadas aos Pods (devem casar com o selector acima)
+        app: flask-app           # Label "app: flask-app" aplicada em cada Pod
+    spec:                        # Especificação dos containers dentro do Pod
+      containers:                # Lista de containers que o Pod terá (neste caso, apenas 1)
+        - name: flask            # Nome do container dentro do Pod
+          image: leonardotrevisol/flask-kub-project:latest   # Imagem Docker usada para rodar o container
+          
+# 💡 Como rodar este Deployment em modo declarativo:
+# 1. Salve este conteúdo em um arquivo, por exemplo: deployment.yaml
+# 2. Aplique o arquivo no cluster Kubernetes com:
+#       kubectl apply -f deployment.yaml
+# 3. Verifique se os pods foram criados:
+#       kubectl get pods
+# 4. Para expor a aplicação via Service (LoadBalancer, NodePort ou ClusterIP):
+#       kubectl expose deployment flask-app-deployment --type=LoadBalancer --port=5000
+# 5. Confira o Service criado:
+#       kubectl get services
+#
+# 🔹 Explicação:
+# - `kubectl apply -f deployment.yaml` diz ao Kubernetes para criar ou atualizar o Deployment
+#   de acordo com o estado desejado definido no arquivo YAML.
+# - O Deployment garante que sempre haverá o número de réplicas definido (neste caso 4).
+# - O Service expõe os pods de forma estável para acesso externo ou interno, permitindo
+#   que os clientes alcancem a aplicação sem precisar se preocupar com pods efêmeros.

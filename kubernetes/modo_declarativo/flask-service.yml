@@ -1,0 +1,26 @@
+apiVersion: v1                    # Define a versão da API Kubernetes usada para este recurso (v1 é padrão para Services)
+kind: Service                     # Tipo do objeto que estamos criando (Service, responsável por expor Pods na rede)
+metadata:                         # Metadados do recurso (informações de identificação)
+  name: flask-service3             # Nome do Service (usado para referência no cluster)
+spec:                             # Especificação do Service (define como ele irá expor os Pods)
+  selector:                        # Define quais Pods este Service irá alcançar
+    app: flask-app                 # Seleciona todos os Pods que possuem a label "app: flask-app"
+  ports:                           # Define as portas que o Service irá expor
+    - protocol: TCP                # Protocolo usado (TCP é padrão para aplicações web)
+      port: 5000                   # Porta que será exposta pelo Service
+      targetPort: 5000             # Porta em que os Pods estão escutando (a mesma do container)
+  type: LoadBalancer               # Tipo de Service: LoadBalancer cria um IP externo acessível fora do cluster
+
+# 💡 Como rodar este Service em modo declarativo:
+# 1. Salve este conteúdo em um arquivo, por exemplo: service.yaml
+# 2. Aplique o arquivo no cluster Kubernetes com:
+#       kubectl apply -f service.yaml
+# 3. Verifique se o Service foi criado e veja o IP externo:
+#       kubectl get services
+# 4. Agora você pode acessar a aplicação através do IP externo (LoadBalancer) ou
+#    testar internamente usando Minikube IP e a porta definida.
+#
+# 🔹 Explicação:
+# - O Service garante um ponto de acesso estável para os Pods selecionados, mesmo que eles
+#   sejam recriados ou escalonados pelo Deployment.
+# - LoadBalancer é usado quando você precisa de acesso externo; para uso interno, ClusterIP ou NodePort podem ser usados.
