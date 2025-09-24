@@ -2615,6 +2615,108 @@ spec:
     <li>Para automação, combine o modo declarativo com ferramentas como Helm ou Kustomize.</li>
   </ul>
 
+<h2>🐧 Comandos úteis no Linux</h2>
+<p>
+Nesta seção, reunimos os principais comandos e atalhos que facilitam a vida no terminal Linux. 
+Eles são especialmente úteis para quem trabalha com <strong>Docker</strong>, já que permitem navegar, inspecionar arquivos, monitorar processos e lidar com logs de containers de forma prática.
+</p>
+
+<h2>💻 Terminal e Shell</h2>
+<p>
+O <strong>terminal</strong> é a interface de linha de comando, enquanto o <strong>shell</strong> (como <code>bash</code> ou <code>zsh</code>) é o interpretador que executa os comandos.  
+Grande parte do uso do Docker depende do terminal, seja para criar containers com <code>docker run</code>, listar serviços (<code>docker ps</code>) ou acessar o shell de um container (<code>docker exec -it</code>).
+</p>
+
+<h2>📂 Estrutura de Arquivos</h2>
+<p>
+O Linux organiza arquivos em árvore a partir da raiz (<code>/</code>):  
+<ul>
+  <li><code>/home</code> → diretórios de usuários.</li>
+  <li><code>/etc</code> → arquivos de configuração (ex: <code>/etc/docker/daemon.json</code>).</li>
+  <li><code>/var/lib/docker</code> → onde o Docker salva imagens, volumes e metadados.</li>
+  <li><code>/var/log</code> → logs do sistema e de serviços (útil ao depurar containers).</li>
+</ul>
+Compreender essa hierarquia ajuda a localizar volumes e arquivos de configuração do Docker.
+</p>
+
+<h2>📌 Comando <code>cd</code></h2>
+<p>
+Usado para navegar entre diretórios.  
+Exemplos:
+<ul>
+  <li><code>cd /home/usuario</code> → entra na pasta do usuário.</li>
+  <li><code>cd ..</code> → sobe um nível.</li>
+  <li><code>cd -</code> → volta ao último diretório acessado.</li>
+  <li><code>cd ~</code> → vai direto para a home.</li>
+</ul>
+Muito útil para alternar entre projetos que usam diferentes <code>Dockerfile</code> ou <code>docker-compose.yml</code>.
+</p>
+
+<h2>📌 Comando <code>ls</code></h2>
+<p>
+Lista o conteúdo de diretórios.  
+Funcionalidades:
+<ul>
+  <li><code>ls</code> → lista simples.</li>
+  <li><code>ls -l</code> → lista detalhada (permissões, dono, tamanho, data).</li>
+  <li><code>ls -a</code> → mostra arquivos ocultos (como <code>.env</code>).</li>
+  <li><code>ls -lh</code> → tamanhos legíveis (KB, MB).</li>
+  <li><code>ls -ltr</code> → lista em ordem cronológica (bom para ver logs recentes).</li>
+</ul>
+</p>
+
+<h2>🧹 Comando <code>clear</code></h2>
+<p>
+Limpa a tela do terminal: <code>clear</code>.  
+Atalho: <code>Ctrl + L</code>.  
+Ajuda a manter o terminal limpo durante execuções frequentes de comandos Docker.
+</p>
+
+<h2>📖 Comando <code>cat</code></h2>
+<p>
+Exibe o conteúdo de arquivos diretamente no terminal.  
+Exemplos:
+<ul>
+  <li><code>cat docker-compose.yml</code> → mostra o conteúdo do Compose.</li>
+  <li><code>cat -n arquivo.txt</code> → numera as linhas.</li>
+  <li><code>cat a.txt b.txt &gt; juntos.txt</code> → concatena arquivos.</li>
+  <li><code>cat logs.txt | grep error</code> → filtra linhas com “error”.</li>
+</ul>
+Muito útil para inspecionar <strong>logs de containers</strong>.
+</p>
+
+<h2>📝 Comando <code>touch</code></h2>
+<p>
+Cria arquivos vazios ou atualiza a data de modificação.  
+Exemplo: <code>touch Dockerfile</code>.  
+</p>
+
+<h2>📚 Comando <code>man</code></h2>
+<p>
+Abre o manual de um comando: <code>man ls</code>.  
+Ajuda a descobrir todas as opções disponíveis.  
+No Docker, também é útil junto a comandos do sistema, como <code>man systemctl</code>.
+</p>
+
+<h2>⭐ Dica bônus: <code>Ctrl + r</code></h2>
+<p>
+Busca rápida no histórico de comandos.  
+Exemplo: pressione <code>Ctrl + r</code> e digite <code>docker</code> para encontrar comandos antigos relacionados a containers.  
+Ótimo para repetir comandos longos como <code>docker run -it --rm -v $(pwd):/app ubuntu bash</code>.
+</p>
+
+<hr>
+
+<h2>⚡ Outros comandos úteis no Linux para Docker</h2>
+<ul>
+  <li><code>grep</code> → filtra textos, útil em logs: <code>docker logs app | grep ERROR</code>.</li>
+  <li><code>tail -f</code> → acompanha logs em tempo real: <code>docker logs -f container</code>.</li>
+  <li><code>df -h</code> → mostra espaço em disco, importante para imagens pesadas.</li>
+  <li><code>du -sh *</code> → mostra tamanho das pastas (bom para volumes).</li>
+  <li><code>ps aux</code> → lista processos em execução (verifica se o daemon do Docker está ativo).</li>
+  <li><code>chmod</code> / <code>chown</code> → ajusta permissões em volumes montados no Docker.</li>
+</ul>
+
 <h2>📌 Conclusão ✅</h2>
 
 <p>
@@ -2622,4 +2724,3 @@ Este repositório reúne um guia completo para dominar o Docker, abrangendo desd
 Ao longo do curso, você aprendeu a criar e gerenciar containers, imagens, volumes, redes e stacks completas com Docker Compose, além de explorar automação e escalabilidade em ambientes distribuídos. 
 Com exemplos práticos e boas práticas, como uso de YAML, bind mounts e gerenciamento de recursos, você está preparado para aplicar o Docker em projetos reais, desde desenvolvimento local até deploy em produção, garantindo portabilidade, eficiência e consistência em seus ambientes. 🚀
 </p>
-
