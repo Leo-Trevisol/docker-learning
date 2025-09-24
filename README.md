@@ -2618,16 +2618,16 @@ spec:
 <h2>🐧 Comandos úteis no Linux</h2>
 <p>
 Nesta seção, reunimos os principais comandos e atalhos que facilitam a vida no terminal Linux. 
-Eles são especialmente úteis para quem trabalha com <strong>Docker</strong>, já que permitem navegar, inspecionar arquivos, monitorar processos e lidar com logs de containers de forma prática.
+Eles são especialmente úteis para quem trabalha com <strong>Docker</strong>, permitindo navegar, inspecionar arquivos, monitorar processos e lidar com logs de containers de forma prática.
 </p>
 
-<h2>💻 Terminal e Shell</h2>
+<h3>💻 Terminal e Shell</h3>
 <p>
 O <strong>terminal</strong> é a interface de linha de comando, enquanto o <strong>shell</strong> (como <code>bash</code> ou <code>zsh</code>) é o interpretador que executa os comandos.  
 Grande parte do uso do Docker depende do terminal, seja para criar containers com <code>docker run</code>, listar serviços (<code>docker ps</code>) ou acessar o shell de um container (<code>docker exec -it</code>).
 </p>
 
-<h2>📂 Estrutura de Arquivos</h2>
+<h3>📂 Estrutura de Arquivos</h3>
 <p>
 O Linux organiza arquivos em árvore a partir da raiz (<code>/</code>):  
 <ul>
@@ -2639,7 +2639,7 @@ O Linux organiza arquivos em árvore a partir da raiz (<code>/</code>):
 Compreender essa hierarquia ajuda a localizar volumes e arquivos de configuração do Docker.
 </p>
 
-<h2>📌 Comando <code>cd</code></h2>
+<h3>📌 Comando <code>cd</code></h3>
 <p>
 Usado para navegar entre diretórios.  
 Exemplos:
@@ -2652,7 +2652,7 @@ Exemplos:
 Muito útil para alternar entre projetos que usam diferentes <code>Dockerfile</code> ou <code>docker-compose.yml</code>.
 </p>
 
-<h2>📌 Comando <code>ls</code></h2>
+<h3>📌 Comando <code>ls</code></h3>
 <p>
 Lista o conteúdo de diretórios.  
 Funcionalidades:
@@ -2665,14 +2665,14 @@ Funcionalidades:
 </ul>
 </p>
 
-<h2>🧹 Comando <code>clear</code></h2>
+<h3>🧹 Comando <code>clear</code></h3>
 <p>
 Limpa a tela do terminal: <code>clear</code>.  
 Atalho: <code>Ctrl + L</code>.  
 Ajuda a manter o terminal limpo durante execuções frequentes de comandos Docker.
 </p>
 
-<h2>📖 Comando <code>cat</code></h2>
+<h3>📖 Comando <code>cat</code></h3>
 <p>
 Exibe o conteúdo de arquivos diretamente no terminal.  
 Exemplos:
@@ -2685,20 +2685,20 @@ Exemplos:
 Muito útil para inspecionar <strong>logs de containers</strong>.
 </p>
 
-<h2>📝 Comando <code>touch</code></h2>
+<h3>📝 Comando <code>touch</code></h3>
 <p>
 Cria arquivos vazios ou atualiza a data de modificação.  
-Exemplo: <code>touch Dockerfile</code>.  
+Exemplo: <code>touch Dockerfile</code>.
 </p>
 
-<h2>📚 Comando <code>man</code></h2>
+<h3>📚 Comando <code>man</code></h3>
 <p>
 Abre o manual de um comando: <code>man ls</code>.  
 Ajuda a descobrir todas as opções disponíveis.  
 No Docker, também é útil junto a comandos do sistema, como <code>man systemctl</code>.
 </p>
 
-<h2>⭐ Dica bônus: <code>Ctrl + r</code></h2>
+<h3>⭐ Dica bônus: <code>Ctrl + r</code></h3>
 <p>
 Busca rápida no histórico de comandos.  
 Exemplo: pressione <code>Ctrl + r</code> e digite <code>docker</code> para encontrar comandos antigos relacionados a containers.  
@@ -2707,7 +2707,7 @@ Exemplo: pressione <code>Ctrl + r</code> e digite <code>docker</code> para encon
 
 <hr>
 
-<h2>⚡ Outros comandos úteis no Linux para Docker</h2>
+<h3>⚡ Outros comandos úteis no Linux para Docker</h3>
 <ul>
   <li><code>grep</code> → filtra textos, útil em logs: <code>docker logs app | grep ERROR</code>.</li>
   <li><code>tail -f</code> → acompanha logs em tempo real: <code>docker logs -f container</code>.</li>
